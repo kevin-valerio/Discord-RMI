@@ -2,3 +2,5 @@
 .idea/*
 client/*.iml
 server/*.iml
+client/out/*
+server/out/*
