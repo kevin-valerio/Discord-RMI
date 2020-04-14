@@ -1,2 +1,4 @@
 .idea
 .idea/*
+client/*.iml
+server/*.iml
