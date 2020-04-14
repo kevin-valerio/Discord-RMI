@@ -1,11 +1,8 @@
-
 import api.PDPublicAPI;
 import cli.commands.Connect;
 import cli.commands.Quit;
-import interfaces.*;
-
-
 import cli.framework.Shell;
+import interfaces.StaticInfo;
 import logging.Logger;
 
 
@@ -15,6 +12,7 @@ public class Client extends Shell<PDPublicAPI> {
         super.system = new PDPublicAPI();
         super.invite = "Discord";
 
+        //Simple comment for Git
         // Registering the command available for the user
         register(
                 // Exiting the client
