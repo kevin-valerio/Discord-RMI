@@ -7,6 +7,8 @@ public class User {
 
     private String pseudo;
 
+    private ClientPrivateMessageInterface privateMessageInterface;
+
     public User(String login,String password, String pseudo){
         this.login = login;
         this.password = password;
@@ -23,5 +25,13 @@ public class User {
 
     public String getLogin() {
         return login;
+    }
+
+    public void setPrivateMessageInterface(ClientPrivateMessageInterface clientPrivateMessageInterface) {
+        this.privateMessageInterface = clientPrivateMessageInterface;
+    }
+
+    public ClientPrivateMessageInterface getPrivateMessageInterface() {
+        return privateMessageInterface;
     }
 }

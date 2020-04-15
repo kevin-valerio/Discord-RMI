@@ -2,6 +2,7 @@ import api.PDPublicAPI;
 import cli.commands.Connect;
 import cli.commands.Quit;
 import cli.framework.Shell;
+import interfaces.ClientPrivateMessageImpl;
 import interfaces.StaticInfo;
 import logging.Logger;
 
@@ -17,8 +18,7 @@ public class Client extends Shell<PDPublicAPI> {
         register(
                 // Exiting the client
                 Quit.class,
-                            Connect.class
-                
+                Connect.class
         );
     }
 
@@ -28,6 +28,7 @@ public class Client extends Shell<PDPublicAPI> {
         }
         else if (args.length == 1){
             StaticInfo.setConnection(args[0]);
+            StaticInfo.setPvtMessageInterface(new ClientPrivateMessageImpl());
             Client client = new Client();
             client.run();
         }

@@ -38,7 +38,7 @@ public class Connect extends Command<PDPublicAPI> {
             Remote r = Naming.lookup("rmi://" + address + "/Connection");
             ChatInterface chatInterface;
             ConnectionInterface connectionInterface = ((ConnectionInterface) r);
-            chatInterface = connectionInterface.connect(login, password);
+            chatInterface = connectionInterface.connect(login, password, StaticInfo.getPvtMessageInterface());
 
             if (chatInterface == null){
                 Logger.getLogger().println("Wrong login/password");
@@ -58,7 +58,8 @@ public class Connect extends Command<PDPublicAPI> {
                         GetListGroup.class,
                         GetMyListGroup.class,
                         VisualiseGroup.class,
-                        JoinGroup.class
+                        JoinGroup.class,
+                        SendDirectPrivateMessage.class
                 );
                 shell.run();
             }

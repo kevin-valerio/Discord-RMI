@@ -3,6 +3,7 @@ package interfaces;
 public class StaticInfo {
     private static String connection;
     private static ChatInterface chatInterface;
+    private static ClientPrivateMessageInterface pvtMessageInterface;
 
     public static ChatInterface getChatInterface() {
         return chatInterface;
@@ -18,5 +19,11 @@ public class StaticInfo {
 
     public static void setConnection(String conection) {
         StaticInfo.connection = conection;
+    }
+    public static void setPvtMessageInterface(ClientPrivateMessageInterface pvtMessageInterface) {
+        StaticInfo.pvtMessageInterface = pvtMessageInterface;
+    }
+    public static ClientPrivateMessageInterface getPvtMessageInterface() {
+        return pvtMessageInterface;
     }
 }

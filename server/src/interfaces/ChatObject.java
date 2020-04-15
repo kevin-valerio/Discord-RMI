@@ -64,4 +64,14 @@ public class ChatObject extends UnicastRemoteObject implements ChatInterface {
 
         return list;
     }
+
+    @Override
+    public ClientPrivateMessageInterface getUserPrivateMassageInterface(String pseudo) throws RemoteException, InterruptedException {
+        for (User user : chat.getAllUser()) {
+            if (user.getPseudo().equals(pseudo)) {
+                return user.getPrivateMessageInterface();
+            }
+        }
+        return null;
+    }
 }
