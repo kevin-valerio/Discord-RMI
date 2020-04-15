@@ -1,7 +1,10 @@
 package cli.commands;
 
 import api.PDPublicAPI;
-import cli.commands.messagerie.*;
+import cli.commands.messagerie.GetListGroup;
+import cli.commands.messagerie.GetMyListGroup;
+import cli.commands.messagerie.JoinGroup;
+import cli.commands.messagerie.VisualiseGroup;
 import cli.framework.Command;
 import cli.framework.Shell;
 import interfaces.ChatInterface;
@@ -41,7 +44,7 @@ public class Connect extends Command<PDPublicAPI> {
             chatInterface = connectionInterface.connect(login, password);
 
             if (chatInterface == null){
-                Logger.getLogger().println("Wrong login/password");
+                Logger.getLogger().println("Wrong login / password. Try again !");
             }
             else {
                 Logger.getLogger().println("");
@@ -55,6 +58,7 @@ public class Connect extends Command<PDPublicAPI> {
                 shell.system = new PDPublicAPI();
                 shell.invite = "Discord";
                 shell.register(
+                        Return.class,
                         GetListGroup.class,
                         GetMyListGroup.class,
                         VisualiseGroup.class,

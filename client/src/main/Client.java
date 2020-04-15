@@ -1,10 +1,12 @@
+package main;
+
 import api.PDPublicAPI;
 import cli.commands.Connect;
+import cli.commands.Help;
 import cli.commands.Quit;
 import cli.framework.Shell;
 import interfaces.StaticInfo;
 import logging.Logger;
-
 
 public class Client extends Shell<PDPublicAPI> {
 
@@ -12,26 +14,24 @@ public class Client extends Shell<PDPublicAPI> {
         super.system = new PDPublicAPI();
         super.invite = "Discord";
 
-        //Simple comment for Git
-        // Registering the command available for the user
         register(
-                // Exiting the client
+                Connect.class,
                 Quit.class,
-                            Connect.class
-                
+                Help.class
         );
     }
 
-    public static void main(String[] args) throws Exception {
-        if (args.length == 0){
-            Logger.getLogger().println(("No args given"));
+    public static void main(String[] args) {
+        if (args.length == 0) {
+            Logger.getLogger().println(("No args given. Setting default args to localhost"));
+            args = new String[]{"127.0.0.1"};
         }
-        else if (args.length == 1){
+
+        if (args.length == 1) {
             StaticInfo.setConnection(args[0]);
             Client client = new Client();
             client.run();
-        }
-        else{
+        } else {
             Logger.getLogger().println(("Too many args given"));
         }
     }

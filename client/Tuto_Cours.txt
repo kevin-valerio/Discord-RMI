@@ -1,0 +1,22 @@
+RMI Tuto
+
+Main client : 
+	1. On crée le stub pour l'objet distant
+    2. On contacte sur le port 2001 avec protocole RMI sur la machine localhost s'il existe un HelloWorld object
+	3. S'il existe, on appelle ses méthodes : sayHello() et sayResultat()
+	
+Interface de l'objet :
+	1. Extends Remote (c'est Remotable)
+	2. Signature de nos fonction
+	
+Classe de l'objet :
+	1. Extends UnicastRemoteObject
+	2. Implemente notre interface evidemment
+	
+Main server :
+	1. On crée un objet (de la classe précedente, notre vrai objet)
+	3. On créer le registry (LocateRegistry.createRegistry)
+	2. On rebind notre objet dansle serveur (celui qu'on veut storer)
+	
+Attention : le mécanisme de désérialisation n’utilise pas de constructeur lorsque les classes sont Serializable, mais se fonde uniquement sur les valeurs reçues dans le flot d’octet pour initialiser les attributs de l’objet résultat de la désérialisation, sauf pour les transient (?)
+Je crois : le constructeur n'est pas invoqué d'une classe fille si la classe mere n'est PAS Serializable.
