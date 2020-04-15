@@ -2,6 +2,7 @@ package cli.commands;
 
 import api.PDPublicAPI;
 import cli.framework.Command;
+import logging.Logger;
 
 public class Quit extends Command<PDPublicAPI> {
 
@@ -10,6 +11,8 @@ public class Quit extends Command<PDPublicAPI> {
     }
 
     public void execute() throws Exception {
+        Logger.getLogger().println("Exiting. Bye !");
+        System.exit(0);
     }
 
     public String describe() {
