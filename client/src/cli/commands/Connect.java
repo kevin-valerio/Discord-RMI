@@ -1,10 +1,7 @@
 package cli.commands;
 
 import api.PDPublicAPI;
-import cli.commands.messagerie.GetListGroup;
-import cli.commands.messagerie.GetMyListGroup;
-import cli.commands.messagerie.JoinGroup;
-import cli.commands.messagerie.VisualiseGroup;
+import cli.commands.messagerie.*;
 import cli.framework.Command;
 import cli.framework.Shell;
 import interfaces.ChatInterface;
@@ -42,6 +39,7 @@ public class Connect extends Command<PDPublicAPI> {
             ChatInterface chatInterface;
             ConnectionInterface connectionInterface = ((ConnectionInterface) r);
             chatInterface = connectionInterface.connect(login, password, StaticInfo.getPvtMessageInterface());
+            StaticInfo.setOwnPseudo(chatInterface.getPseudo());
 
             if (chatInterface == null){
                 Logger.getLogger().println("Wrong login / password. Try again !");

@@ -74,4 +74,9 @@ public class ChatObject extends UnicastRemoteObject implements ChatInterface {
         }
         return null;
     }
+
+    @Override
+    public String getPseudo() throws RemoteException, InterruptedException {
+        return user.getPseudo();
+    }
 }

@@ -62,8 +62,8 @@ public class Shell<T> {
             Logger.getLogger().println("");
             return true;
         }
-
         Class<? extends Command<T>> command = commands.get(keyword);
+
         try {
             Command inst = command.newInstance();
             inst.withShell(this);

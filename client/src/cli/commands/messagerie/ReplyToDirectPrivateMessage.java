@@ -9,23 +9,17 @@ import interfaces.StaticInfo;
 import java.util.Iterator;
 import java.util.List;
 
-public class SendDirectPrivateMessage extends Command<PDPublicAPI> {
+public class ReplyToDirectPrivateMessage extends Command<PDPublicAPI> {
 
-    private String pseudo;
-
-    private StringBuilder message = new StringBuilder();
+    private StringBuilder message;
 
     @Override
-    public String identifier() {
-        return "Send a direct private message";
+    public String identifier() { return "Reply to last direct private message";
     }
 
     @Override
     public void load(List<String> args) {
         Iterator<String> it = args.iterator();
-        if (it.hasNext())
-            pseudo = it.next();
-
         while (it.hasNext()) {
             message.append(it.next());
             message.append(" ");
@@ -34,12 +28,8 @@ public class SendDirectPrivateMessage extends Command<PDPublicAPI> {
 
     @Override
     public void execute() throws Exception {
-
-        ChatInterface chatInterface = StaticInfo.getChatInterface();
-
         ClientPrivateMessageInterface remoteClientMessageInterface =
-                chatInterface.getUserPrivateMassageInterface(pseudo);
-
+                StaticInfo.getLastEmitterMessageInterface();
         remoteClientMessageInterface.receivePrivateMessage(StaticInfo.getOwnPseudo(), StaticInfo.getPvtMessageInterface(), message.toString());
     }
 

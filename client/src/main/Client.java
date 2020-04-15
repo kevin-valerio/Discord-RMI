@@ -9,6 +9,8 @@ import interfaces.ClientPrivateMessageImpl;
 import interfaces.StaticInfo;
 import logging.Logger;
 
+import static java.lang.System.exit;
+
 public class Client extends Shell<PDPublicAPI> {
 
     public Client(){
@@ -30,7 +32,13 @@ public class Client extends Shell<PDPublicAPI> {
 
         if (args.length == 1) {
             StaticInfo.setConnection(args[0]);
-            StaticInfo.setPvtMessageInterface(new ClientPrivateMessageImpl());
+            try {
+                StaticInfo.setPvtMessageInterface(new ClientPrivateMessageImpl());
+            } catch (Exception e) {
+                e.printStackTrace();
+                exit(-1);
+            }
+
             Client client = new Client();
             client.run();
         } else {
