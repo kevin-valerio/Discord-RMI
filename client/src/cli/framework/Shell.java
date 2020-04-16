@@ -1,6 +1,7 @@
 package cli.framework;
 
 
+import interfaces.StaticInfo;
 import logging.Logger;
 
 import java.util.*;
@@ -13,6 +14,28 @@ public class Shell<T> {
     public String invite;
     private Map<Integer, Class<? extends Command<T>>> commands = new HashMap<>();
 
+    public void printCommandsIDs() {
+        StringBuilder res = new StringBuilder();
+        commands.forEach((key, value) -> {
+            try {
+                Command c = value.newInstance();
+                res.append(c.identifier());
+                res.append("\n");
+            } catch (InstantiationException | IllegalAccessException e) {
+                System.err.println("Unable to print command " + value);
+                e.printStackTrace();
+            }
+        });
+        try {
+            if (StaticInfo.getChatInterface() != null)
+                Logger.getLogger().println("AT " + StaticInfo.getChatInterface().getPseudo());
+        } catch (Exception e) {
+            System.err.println("getPseudo():\n");
+            e.printStackTrace();
+        }
+        Logger.getLogger().println("PRINT COMMANDS:\n" + res.toString());
+    }
+
     public final void run() {
         //Logger.getLogger().println("Interactive shell started. Type " + HELP_SYMBOL + " for help.");
         Scanner scanner = new Scanner(System.in);
@@ -20,6 +43,7 @@ public class Shell<T> {
 
         while (shouldContinue) {
             Logger.getLogger().flush();
+            System.out.println("AAA");
             menu();
             System.out.print(invite + " > ");
 
@@ -36,6 +60,7 @@ public class Shell<T> {
 
             try {
                 if (keyword.equals(HELP_SYMBOL)) {
+                    System.out.println("BBB");
                     help();
                 } else if(keyword.equals("back")){
                     shouldContinue = false;
@@ -62,6 +87,7 @@ public class Shell<T> {
             Logger.getLogger().println("");
             return true;
         }
+        printCommandsIDs();
         Class<? extends Command<T>> command = commands.get(keyword);
 
         try {
@@ -84,6 +110,12 @@ public class Shell<T> {
 
     private void registerCommand(Class<? extends Command<T>> command) {
         try {
+            try {
+                Command temp = command.newInstance();
+                System.out.println(temp.identifier() +  " ");
+            } catch (Exception e) {
+                System.out.println("ERRROOOOR");
+            }
             commands.put(commands.size(), command);
         } catch (IllegalArgumentException e) {
             System.err.println("Unable to register command " + command.toString());

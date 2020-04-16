@@ -8,6 +8,7 @@ import interfaces.StaticInfo;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class SendDirectPrivateMessage extends Command<PDPublicAPI> {
 
@@ -40,8 +41,25 @@ public class SendDirectPrivateMessage extends Command<PDPublicAPI> {
         ClientPrivateMessageInterface remoteClientMessageInterface =
                 chatInterface.getUserPrivateMassageInterface(pseudo);
 
-        remoteClientMessageInterface.receivePrivateMessage(StaticInfo.getOwnPseudo(), StaticInfo.getPvtMessageInterface(), message.toString());
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    remoteClientMessageInterface.receivePrivateMessage(StaticInfo.getOwnPseudo(), StaticInfo.getPvtMessageInterface(), message.toString());
+                } catch (Exception e) {
+                    System.out.println("Error Sending Message:\n");
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
+
+    /*
+    @Override
+    public boolean shouldContinue() {
+        return false;
+    }*/
 
     @Override
     public String describe() {
