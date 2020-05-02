@@ -4,6 +4,7 @@ import api.PDPublicAPI;
 import cli.framework.Command;
 import interfaces.ChatInterface;
 import interfaces.ClientPrivateMessageInterface;
+import interfaces.PrivateMessage;
 import interfaces.StaticInfo;
 
 import java.util.Iterator;
@@ -41,17 +42,13 @@ public class SendDirectPrivateMessage extends Command<PDPublicAPI> {
         ClientPrivateMessageInterface remoteClientMessageInterface =
                 chatInterface.getUserPrivateMassageInterface(pseudo);
 
-        Executors.newSingleThreadExecutor().execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    remoteClientMessageInterface.receivePrivateMessage(StaticInfo.getOwnPseudo(), StaticInfo.getPvtMessageInterface(), message.toString());
-                } catch (Exception e) {
-                    System.out.println("Error Sending Message:\n");
-                    e.printStackTrace();
-                }
-            }
-        });
+        remoteClientMessageInterface.addPrivateMessageToQueue(
+                new PrivateMessage(
+                        StaticInfo.getOwnPseudo(),
+                        message.toString(),
+                        StaticInfo.getPvtMessageInterface()
+                )
+        );
 
     }
 

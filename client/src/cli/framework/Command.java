@@ -28,8 +28,6 @@ public abstract class Command<T> {
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }
-        System.out.println("BEFORE execute =>");
-        shell.printCommandsIDs();
         execute();
         return shouldContinue();
     }
