@@ -11,4 +11,5 @@ public interface ConnectionInterface extends Remote {
             String user, String password,
             ClientPrivateMessageInterface clientPrivateMessageInterface,
             ClientPublicMessageInterface clientPublicMessageInterface) throws RemoteException, InterruptedException;//, JMSException;
+    public void disconnect(String pseudo) throws RemoteException, InterruptedException;
 }

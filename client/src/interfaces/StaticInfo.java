@@ -1,11 +1,16 @@
 package interfaces;
 
+import cli.commands.Connect;
 import cli.framework.Shell;
 
 public class StaticInfo {
     private static String ownPseudo;
     private static String connection;
     private static ChatInterface chatInterface;
+    private static ConnectionInterface connectionInterface;
+
+
+
     private static ClientPrivateMessageImpl pvtMessageInterface;
     private static String lastEmitterMessagePseudo;
     private static ClientPrivateMessageInterface lastEmitterMessageInterface;
@@ -18,6 +23,7 @@ public class StaticInfo {
 
     public static boolean isCurrentlyVisualisingGroup() {return  isVisualisingGroup;}
 
+    private static Shell currentShell;
 
     public static void setPublicMessageInterface(ClientPublicMessageInterface publicMessageInterface) {
         StaticInfo.publicMessageInterface = publicMessageInterface;
@@ -26,8 +32,13 @@ public class StaticInfo {
     public static ClientPublicMessageInterface getPublicMessageInterface() {
         return publicMessageInterface;
     }
+    public static void setConnectionInterface(ConnectionInterface connectionInterface) {
+        StaticInfo.connectionInterface = connectionInterface;
+    }
 
-    private static Shell currentShell;
+    public static ConnectionInterface getConnectionInterface() {
+        return connectionInterface;
+    }
 
     public static ChatInterface getChatInterface() {
         return chatInterface;

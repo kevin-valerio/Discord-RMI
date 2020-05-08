@@ -34,6 +34,9 @@ public class ConnectionObject extends UnicastRemoteObject
             }
         }
         return null;
+    }
 
+    public void disconnect(String pseudo) throws RemoteException, InterruptedException {
+        Chat.getChat().disconnect(pseudo);
     }
 } 

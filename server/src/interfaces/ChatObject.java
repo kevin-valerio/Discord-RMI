@@ -36,6 +36,11 @@ public class ChatObject extends UnicastRemoteObject implements ChatInterface {
         chat.addMsgToTextualChannelMsgList(idTopic, msg);
     }
 
+    @Override
+    public boolean newMsgsFromChannel1(String pseudo) throws RemoteException, InterruptedException {
+        return chat.newMsgsFromChannel1(pseudo);
+    }
+
     public boolean joinGroup(String group) throws RemoteException, InterruptedException {
 
         System.out.println(user.getLogin() + " is trying to join topic #" + group);

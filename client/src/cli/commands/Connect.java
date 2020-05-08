@@ -42,6 +42,7 @@ public class Connect extends Command<PDPublicAPI> {
                     login, password, StaticInfo.getPvtMessageInterface(),
                     StaticInfo.getPublicMessageInterface());
             StaticInfo.setOwnPseudo(chatInterface.getPseudo());
+            StaticInfo.setConnectionInterface(connectionInterface);
 
             if (chatInterface == null){
                 Logger.getLogger().println("Wrong login / password. Try again !");
@@ -49,6 +50,11 @@ public class Connect extends Command<PDPublicAPI> {
             else {
                 Logger.getLogger().println("");
                 Logger.getLogger().println("Welcome "+login + " !");
+                /*
+                * TODO: replace "#1" by the channel(s) concerned
+                * */
+                if (chatInterface.newMsgsFromChannel1(chatInterface.getPseudo()))
+                    Logger.getLogger().println("\u001B[32m" + "\tNEW MESSAGES IN TEXT CHANNEL " + "#1" + "\u001B[0m");
                 Logger.getLogger().println("Type back to disconnect and ? for help.");
                 Logger.getLogger().println("");
 

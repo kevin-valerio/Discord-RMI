@@ -2,6 +2,7 @@ package cli.commands;
 
 import api.PDPublicAPI;
 import cli.framework.Command;
+import interfaces.StaticInfo;
 import main.Client;
 
 public class Return extends Command<PDPublicAPI> {
@@ -11,7 +12,8 @@ public class Return extends Command<PDPublicAPI> {
     }
 
     public void execute() throws Exception {
-        Client.main(null);
+        StaticInfo.getConnectionInterface().disconnect(StaticInfo.getOwnPseudo());
+        Client.main(new String[]{""});
     }
 
     public String describe() {

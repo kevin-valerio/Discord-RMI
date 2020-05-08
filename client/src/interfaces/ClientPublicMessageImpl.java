@@ -12,10 +12,14 @@ public class ClientPublicMessageImpl extends UnicastRemoteObject implements Clie
 
     @Override
     public void displayMessage(PublicMessage message) throws RemoteException, InterruptedException {
-        System.out.println(
-                "\u001B[47m" + "\u001B[31m" + message.getPseudo() + ": "
-                        + "\u001B[30m" + message.getMessage()
-                        + "\u001B[0m" + "\u001B[40m" + "\u001B[0m");;
+        if (message.getPseudo() != null)
+            System.out.println(
+                    "\u001B[47m" + "\u001B[31m" + message.getPseudo() + ": "
+                            + "\u001B[30m" + message.getMessage()
+                            + "\u001B[0m" + "\u001B[40m" + "\u001B[0m");
+        else
+            System.out.println(message.getMessage());
+
     }
 
 }

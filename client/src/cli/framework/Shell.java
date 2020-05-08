@@ -41,6 +41,7 @@ public class Shell<T> {
                     help();
                 } else if(keyword.equals("back")){
                     shouldContinue = false;
+                    StaticInfo.getConnectionInterface().disconnect(StaticInfo.getOwnPseudo());
                 }
                 else
                     shouldContinue = processCommand(Integer.parseInt(keyword), args);
