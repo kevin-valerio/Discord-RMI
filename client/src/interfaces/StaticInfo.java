@@ -9,6 +9,17 @@ public class StaticInfo {
     private static ClientPrivateMessageImpl pvtMessageInterface;
     private static String lastEmitterMessagePseudo;
     private static ClientPrivateMessageInterface lastEmitterMessageInterface;
+    private static ClientPublicMessageInterface publicMessageInterface;
+
+
+    public static void setPublicMessageInterface(ClientPublicMessageInterface publicMessageInterface) {
+        StaticInfo.publicMessageInterface = publicMessageInterface;
+    }
+
+    public static ClientPublicMessageInterface getPublicMessageInterface() {
+        return publicMessageInterface;
+    }
+
     private static Shell currentShell;
 
     public static ChatInterface getChatInterface() {

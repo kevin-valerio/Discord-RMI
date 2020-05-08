@@ -2,6 +2,7 @@ package cli.commands.messagerie;
 
 import api.PDPublicAPI;
 import cli.framework.Command;
+import interfaces.PublicMessage;
 import interfaces.StaticInfo;
 import cli.framework.Shell;
 
@@ -42,6 +43,8 @@ public class VisualiseGroup extends Command<PDPublicAPI> {
                     new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
             while (true)
             {
+                //String res = StaticInfo.getChatInterface().checkNewMsgsFromChannel(pseudo, idTopic);
+                // System.out.println(res);
                 String s = stdin.readLine();
 
 
@@ -51,13 +54,15 @@ public class VisualiseGroup extends Command<PDPublicAPI> {
                 else if (s.equals("exit")){
                     exit();
                 }
-                else if (s.length()>0)
-                { String msg="";
-                   
-                  msg="\u001B[47m"+"\u001B[31m"+pseudo + ": " +"\u001B[30m" + s + "\u001B[0m" + "\u001B[40m";
+                else if (s.length()>0) {
+                    //String msg="";
+                    //msg="\u001B[47m"+"\u001B[31m"+pseudo + ": " +"\u001B[30m" + s + "\u001B[0m" + "\u001B[40m";
 
-                  //Publish the message :
-                  System.out.println("Recu msg"+msg);
+                    //Publish the message :
+                    //System.out.println("Recu msg"+msg);
+                    PublicMessage msg = new PublicMessage(pseudo, s);
+                    StaticInfo.getChatInterface().publishMsgOnServ(idTopic, msg);
+
                 }
             }
         }
@@ -75,9 +80,17 @@ public class VisualiseGroup extends Command<PDPublicAPI> {
 
     private void exit()
     {
-        System.out.println("");
-        System.out.println("\u001B[31m"+pseudo+"\u001B[0m"+" left topic #"+idTopic);
-        System.out.println("");
+        try {
+            StaticInfo.getChatInterface().removeUserFromGroup(pseudo, idTopic);
+            System.out.println("");
+            System.out.println("\u001B[31m"+pseudo+"\u001B[0m"+" left topic #"+idTopic);
+            System.out.println("");
+        } catch (Exception e) {
+            System.out.println("ERROR: " + "while trying to remove user " + pseudo + " from topic " + idTopic);
+            e.printStackTrace();
+        }
+
+
 
         Shell<PDPublicAPI> shell = new Shell<>();
         shell.system = new PDPublicAPI();

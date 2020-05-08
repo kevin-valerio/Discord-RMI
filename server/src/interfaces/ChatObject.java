@@ -31,6 +31,11 @@ public class ChatObject extends UnicastRemoteObject implements ChatInterface {
         return chat.getGroupSubscribedPerson().get(user);
     }
 
+    @Override
+    public void publishMsgOnServ(String idTopic, PublicMessage msg) throws RemoteException, InterruptedException {
+        chat.addMsgToTextualChannelMsgList(idTopic, msg);
+    }
+
     public boolean joinGroup(String group) throws RemoteException, InterruptedException {
 
         System.out.println(user.getLogin() + " is trying to join topic #" + group);
@@ -46,6 +51,14 @@ public class ChatObject extends UnicastRemoteObject implements ChatInterface {
             return true;
         }
         return false;
+    }
+
+    public void removeUserFromGroup(String pseudo, String group) throws RemoteException, InterruptedException {
+        System.out.println(user.getLogin() + " is trying to left topic #" + group);
+        if (chat.removeUserFromGroup(pseudo, group))
+            System.out.println(user.getLogin() + " has left topic #" + group);
+        else
+            System.out.println("ERROR: " + user.getLogin() + " still in topic #" + group);
     }
 
     @Override
@@ -64,6 +77,12 @@ public class ChatObject extends UnicastRemoteObject implements ChatInterface {
 
         return list;
     }
+
+    @Override
+    public String checkNewMsgsFromChannel(String pseudo, String idTopic) throws RemoteException, InterruptedException {
+        return chat.checkNewMsgsFromChannel(pseudo, idTopic);
+    }
+
 
     @Override
     public ClientPrivateMessageInterface getUserPrivateMassageInterface(String pseudo) throws RemoteException, InterruptedException {

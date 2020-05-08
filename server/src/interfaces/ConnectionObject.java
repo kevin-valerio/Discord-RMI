@@ -22,11 +22,13 @@ public class ConnectionObject extends UnicastRemoteObject
         Thread.sleep(10000);
     }
 
-    public ChatInterface connect(String userLogin, String passwordLogin, ClientPrivateMessageInterface clientPrivateMessageInterface) throws RemoteException, InterruptedException{
+    public ChatInterface connect(String userLogin, String passwordLogin, ClientPrivateMessageInterface clientPrivateMessageInterface,
+                                 ClientPublicMessageInterface clientPublicMessageInterface) throws RemoteException, InterruptedException{
         for (User user : usersList){
             if (user.getLogin().equals(userLogin) && user.getPassword().equals(passwordLogin)){
                 ChatObject messagerieObject = new ChatObject(user);
                 user.setPrivateMessageInterface(clientPrivateMessageInterface);
+                user.setPublicMessageInterface(clientPublicMessageInterface);
                 System.out.println(user.getLogin() + " is now connected");
                 return messagerieObject;
             }

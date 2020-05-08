@@ -6,6 +6,7 @@ import cli.commands.Help;
 import cli.commands.Quit;
 import cli.framework.Shell;
 import interfaces.ClientPrivateMessageImpl;
+import interfaces.ClientPublicMessageImpl;
 import interfaces.StaticInfo;
 import logging.Logger;
 
@@ -34,6 +35,7 @@ public class Client extends Shell<PDPublicAPI> {
             StaticInfo.setConnection(args[0]);
             try {
                 StaticInfo.setPvtMessageInterface(new ClientPrivateMessageImpl());
+                StaticInfo.setPublicMessageInterface(new ClientPublicMessageImpl());
             } catch (Exception e) {
                 e.printStackTrace();
                 exit(-1);

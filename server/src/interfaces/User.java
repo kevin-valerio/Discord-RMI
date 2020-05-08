@@ -1,5 +1,7 @@
 package interfaces;
 
+import com.sun.security.ntlm.Client;
+
 public class User {
     private String login;
 
@@ -8,8 +10,17 @@ public class User {
     private String pseudo;
 
     private ClientPrivateMessageInterface privateMessageInterface;
+    private ClientPublicMessageInterface publicMessageInterface;
 
-    public User(String login,String password, String pseudo){
+    public void setPublicMessageInterface(ClientPublicMessageInterface publicMessageInterface) {
+        this.publicMessageInterface = publicMessageInterface;
+    }
+
+    public ClientPublicMessageInterface getPublicMessageInterface() {
+        return publicMessageInterface;
+    }
+
+    public User(String login, String password, String pseudo){
         this.login = login;
         this.password = password;
         this.pseudo = pseudo;

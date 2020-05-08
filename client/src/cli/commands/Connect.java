@@ -38,7 +38,9 @@ public class Connect extends Command<PDPublicAPI> {
             Remote r = Naming.lookup("rmi://" + address + "/Connection");
             ChatInterface chatInterface;
             ConnectionInterface connectionInterface = ((ConnectionInterface) r);
-            chatInterface = connectionInterface.connect(login, password, StaticInfo.getPvtMessageInterface());
+            chatInterface = connectionInterface.connect(
+                    login, password, StaticInfo.getPvtMessageInterface(),
+                    StaticInfo.getPublicMessageInterface());
             StaticInfo.setOwnPseudo(chatInterface.getPseudo());
 
             if (chatInterface == null){
