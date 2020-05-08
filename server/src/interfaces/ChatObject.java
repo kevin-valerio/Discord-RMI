@@ -47,6 +47,7 @@ public class ChatObject extends UnicastRemoteObject implements ChatInterface {
 
 
             System.out.println(user.getLogin() + " has joined the topic #" + group);
+            chat.broadcastMsgToAllUsersOfTextualChannel(group);
 
             return true;
         }

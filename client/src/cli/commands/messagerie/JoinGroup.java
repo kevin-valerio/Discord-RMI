@@ -23,10 +23,11 @@ public class JoinGroup extends Command<PDPublicAPI>  {
 
     @Override
     public void execute() throws Exception {
-        StaticInfo.getChatInterface().joinGroup(idTopic);
+
         Logger.getLogger().println("");
         Logger.getLogger().println("Joined topic #"+idTopic);
         Logger.getLogger().println("");
+        StaticInfo.getChatInterface().joinGroup(idTopic);
 
     }
 

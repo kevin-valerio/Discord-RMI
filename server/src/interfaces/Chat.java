@@ -54,7 +54,7 @@ public class Chat {
         broadcastMsgToAllUsersOfTextualChannel(idTopic);;
     }
 
-    private void broadcastMsgToAllUsersOfTextualChannel(String idTopic) {
+    public void broadcastMsgToAllUsersOfTextualChannel(String idTopic) {
         int rank = 0;
         int value = 0;
         List<PublicMessage> pubMsgList = allTextualChannelMsgLists.get(idTopic);
@@ -75,6 +75,12 @@ public class Chat {
                 }
                 rankOfUsers.put(user, pubMsgList.size());
             }
+            /*
+            try {
+                user.getPublicMessageInterface().displayMessage(new PublicMessage(user.getPseudo(), " rank= " + rankOfUsers.get(user)));
+            } catch (Exception e) {
+                System.out.println("ERROR AAAAH 1");
+            } */
         }
     }
 
