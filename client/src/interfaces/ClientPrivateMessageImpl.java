@@ -33,7 +33,8 @@ public class ClientPrivateMessageImpl extends UnicastRemoteObject implements Cli
         Logger.getLogger().println();
         Shell shell = StaticInfo.getCurrentShell();
 
-        System.out.print(shell.invite + " > ");
+        if (!StaticInfo.isCurrentlyVisualisingGroup())
+            System.out.print(shell.invite + " > ");
 
         return this.pmQueue.add(pm);
     }

@@ -15,7 +15,7 @@ public class ClientPublicMessageImpl extends UnicastRemoteObject implements Clie
         System.out.println(
                 "\u001B[47m" + "\u001B[31m" + message.getPseudo() + ": "
                         + "\u001B[30m" + message.getMessage()
-                        + "\u001B[0m" + "\u001B[40m");;
+                        + "\u001B[0m" + "\u001B[40m" + "\u001B[0m");;
     }
 
 }

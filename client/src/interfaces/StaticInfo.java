@@ -10,6 +10,13 @@ public class StaticInfo {
     private static String lastEmitterMessagePseudo;
     private static ClientPrivateMessageInterface lastEmitterMessageInterface;
     private static ClientPublicMessageInterface publicMessageInterface;
+    private static boolean isVisualisingGroup = false;
+
+    public static void enterVisualisingGroup() {isVisualisingGroup = true;}
+
+    public static void exitVisualisingGroup() {isVisualisingGroup = false;}
+
+    public static boolean isCurrentlyVisualisingGroup() {return  isVisualisingGroup;}
 
 
     public static void setPublicMessageInterface(ClientPublicMessageInterface publicMessageInterface) {

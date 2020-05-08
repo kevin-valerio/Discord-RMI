@@ -1,6 +1,7 @@
 package cli.commands.messagerie;
 
 import api.PDPublicAPI;
+import cli.commands.Return;
 import cli.framework.Command;
 import interfaces.PublicMessage;
 import interfaces.StaticInfo;
@@ -37,6 +38,7 @@ public class VisualiseGroup extends Command<PDPublicAPI> {
         System.out.println("Connected to topic #"+idTopic+" as "+"\u001B[31m"+pseudo+"\u001B[0m");
         System.out.println("Type exit to leave.");
         System.out.println("");
+        StaticInfo.enterVisualisingGroup();
         try
         {
             java.io.BufferedReader stdin =
@@ -91,16 +93,27 @@ public class VisualiseGroup extends Command<PDPublicAPI> {
         }
 
 
-
+        StaticInfo.exitVisualisingGroup();
         Shell<PDPublicAPI> shell = new Shell<>();
         shell.system = new PDPublicAPI();
-        shell.invite = "Discord>";
-        shell.register(
+        shell.invite = "Discord";
+        /*shell.register(
                 GetListGroup.class,
                 GetMyListGroup.class,
                 VisualiseGroup.class,
                 JoinGroup.class
+        );*/
+        shell.register(
+                Return.class,
+                GetListGroup.class,
+                GetMyListGroup.class,
+                VisualiseGroup.class,
+                JoinGroup.class,
+                SendDirectPrivateMessage.class,
+                CheckPrivateMessages.class,
+                ReplyToDirectPrivateMessage.class
         );
+        StaticInfo.setCurrentShell(shell);
         shell.run();
 
         //System.exit(0);
