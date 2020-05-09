@@ -3,6 +3,7 @@ package interfaces;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ChatObject extends UnicastRemoteObject implements ChatInterface {
@@ -34,6 +35,26 @@ public class ChatObject extends UnicastRemoteObject implements ChatInterface {
     @Override
     public void publishMsgOnServ(String idTopic, PublicMessage msg) throws RemoteException, InterruptedException {
         chat.addMsgToTextualChannelMsgList(idTopic, msg);
+    }
+
+    @Override
+    public void loadDirectPvtMsgQueueOfClientFromServer(User user) {
+        chat.loadDirectPvtMsgQueueOfClientFromServer(user);
+    }
+
+    @Override
+    public void addMessageToPvtMsgQueueOfUser(String pseudo, PrivateMessage msg) {
+        chat.addMessageToPvtMsgQueueOfUser(pseudo, msg);
+    }
+
+    @Override
+    public LinkedList<PrivateMessage> consumeAllMsgsFromQueueOfUser(String pseudo) {
+        return chat.consumeAllMsgsFromQueueOfUser(pseudo);
+    }
+
+    @Override
+    public int numberOfNewPrivateMessages(String pseudo) {
+        return chat.numberOfNewPrivateMessages(pseudo);
     }
 
     @Override

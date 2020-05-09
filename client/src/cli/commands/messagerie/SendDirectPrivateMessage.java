@@ -2,10 +2,8 @@ package cli.commands.messagerie;
 
 import api.PDPublicAPI;
 import cli.framework.Command;
-import interfaces.ChatInterface;
-import interfaces.ClientPrivateMessageInterface;
-import interfaces.PrivateMessage;
-import interfaces.StaticInfo;
+import interfaces.*;
+import logging.Logger;
 
 import java.util.Iterator;
 import java.util.List;
@@ -38,18 +36,28 @@ public class SendDirectPrivateMessage extends Command<PDPublicAPI> {
     public void execute() throws Exception {
 
         ChatInterface chatInterface = StaticInfo.getChatInterface();
-        System.out.println("un");
         ClientPrivateMessageInterface remoteClientMessageInterface =
                 chatInterface.getUserPrivateMessageInterface(pseudo);
-        System.out.println("deux");
-        remoteClientMessageInterface.addPrivateMessageToQueue(
-                new PrivateMessage(
-                        StaticInfo.getOwnPseudo(),
-                        message.toString(),
-                        StaticInfo.getPvtMessageInterface()
-                )
-        );
-        System.out.println("deux bis");
+
+        if (remoteClientMessageInterface != null) {  //if remoteClient is connected
+            System.out.println(StaticInfo.getOwnPseudo() + "sends direct private message");
+            remoteClientMessageInterface.addPrivateMessageToQueue(
+                    new PrivateMessage(
+                            StaticInfo.getOwnPseudo(),
+                            message.toString(),
+                            StaticInfo.getPvtMessageInterface()));
+        } else {
+            Logger.getLogger().println(
+                    "\t\u001B[32m" + "recipient " + "\u001B[31m" + pseudo + "\t\u001B[32m"
+                            + "is currently disconnected\n\tyour message was saved in server"
+                            + "\t\u001B[0m");
+            StaticInfo.getChatInterface().addMessageToPvtMsgQueueOfUser(
+                    pseudo,
+                    new PrivateMessage(
+                            StaticInfo.getOwnPseudo(),
+                            message.toString(),
+                            StaticInfo.getPvtMessageInterface()));
+        }
     }
 
     /*

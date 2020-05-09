@@ -3,6 +3,7 @@ package interfaces;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ConnectionObject extends UnicastRemoteObject
@@ -29,6 +30,8 @@ public class ConnectionObject extends UnicastRemoteObject
                 ChatObject messagerieObject = new ChatObject(user);
                 user.setPrivateMessageInterface(clientPrivateMessageInterface);
                 user.setPublicMessageInterface(clientPublicMessageInterface);
+
+                messagerieObject.loadDirectPvtMsgQueueOfClientFromServer(user);
                 System.out.println(user.getLogin() + " is now connected");
                 return messagerieObject;
             }

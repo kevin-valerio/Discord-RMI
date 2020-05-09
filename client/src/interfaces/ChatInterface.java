@@ -3,6 +3,7 @@ package interfaces;
 //import javax.jms.JMSException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.LinkedList;
 import java.util.List;
 
 public interface ChatInterface extends Remote {
@@ -21,6 +22,12 @@ public interface ChatInterface extends Remote {
     public String getPseudo() throws RemoteException, InterruptedException;
 
     public void publishMsgOnServ(String idTopic, PublicMessage msg) throws RemoteException, InterruptedException;
+
+    public void addMessageToPvtMsgQueueOfUser(String pseudo, PrivateMessage msg) throws RemoteException, InterruptedException;
+
+    public LinkedList<PrivateMessage> consumeAllMsgsFromQueueOfUser(String pseudo) throws RemoteException, InterruptedException;
+
+    public int numberOfNewPrivateMessages(String pseudo) throws RemoteException, InterruptedException;
 
     public void removeUserFromGroup(String pseudo, String group) throws RemoteException, InterruptedException;
 

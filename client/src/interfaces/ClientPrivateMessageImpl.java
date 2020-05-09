@@ -16,6 +16,8 @@ public class ClientPrivateMessageImpl extends UnicastRemoteObject implements Cli
 
     private LinkedList<PrivateMessage> pmQueue;
 
+
+
     public ClientPrivateMessageImpl() throws RemoteException {
         super();
         this.pmQueue = new LinkedList<>();
@@ -37,6 +39,22 @@ public class ClientPrivateMessageImpl extends UnicastRemoteObject implements Cli
             System.out.print(shell.invite + " > ");
 
         return this.pmQueue.add(pm);
+    }
+
+    @Override
+    public void silentAddPrivateMessageToQueue(PrivateMessage pm) throws RemoteException, InterruptedException {
+        StaticInfo.setLastEmitterMessageInterface(pm.getPmInterface());
+        StaticInfo.setLastEmitterMessagePseudo(pm.getPseudo());
+        this.pmQueue.add(pm);
+    }
+
+    @Override
+    public void emptyDirectPvtMessageQueue() throws RemoteException, InterruptedException {
+        this.pmQueue = new LinkedList<>();
+    }
+
+    public LinkedList<PrivateMessage> getPmQueue() throws RemoteException, InterruptedException {
+        return pmQueue;
     }
 
     public PrivateMessage consumePrivateMessage() {

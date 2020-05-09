@@ -1,38 +1,40 @@
 package interfaces;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class Chat {
     private static Chat chat;
 
-    private  List<String> allGroups;
-    private List<User> userList;
-    private  Map<User, List<String>> groupSubscribedPerson;
+    //Basic attributes given by teacher
+    private  final List<String> allGroups;
+    private final List<User> userList;
+    private  final Map<User, List<String>> groupSubscribedPerson;
 
-    private Map<String, List<PublicMessage>> allTextualChannelMsgLists;
+    //Storage of msg of each Text Channel
+    private final Map<String, List<PublicMessage>> allTextualChannelMsgLists;
 
-    /* /!\ 2 following variables for textual channel #1 only
-    * TODO: implement similar structures for other channels
+    //Each user has a private Message Queue for "Private Messaging" service
+    private final Map<User, LinkedList<PrivateMessage>> allPrivateMsgQueues;
+
+    /*
+    * Following two attributes are for storing UserRanks and
+    * FirstTimeInsideTextChannel for each user and for each
+    * textual channel
     * */
-    private Map<User, Integer> rankOfUsers;
-    private Map<User, Boolean> firstTimeInsideChannel1;
-
-    private Map<String, Map<User, Integer>> allRanksOfUsers;
-    private Map<String, Map<User, Boolean>> allFirstTimeInsideTextChannel;
+    private final Map<String, Map<User, Integer>> allRanksOfUsers;
+    private final Map<String, Map<User, Boolean>> allFirstTimeInsideTextChannel;
 
 
     Chat()  {
         allGroups = new ArrayList<>();
         groupSubscribedPerson = new HashMap<>();
+        userList = new ArrayList<>();
         allRanksOfUsers = new HashMap<>();
         allFirstTimeInsideTextChannel = new HashMap<>();
         allTextualChannelMsgLists = new HashMap<>();
-        userList = new ArrayList<>();
+        allPrivateMsgQueues = new HashMap<>();
 
         allGroups.add("1"); // here, 1 is the name of a channel (not very good idea, should better have
         allGroups.add("2"); // been channel1, for instance!  But I've kept this so this is in line
@@ -42,6 +44,7 @@ public class Chat {
             allRanksOfUsers.put(idTopic, new HashMap<>());
             allFirstTimeInsideTextChannel.put(idTopic, new HashMap<>());
             allTextualChannelMsgLists.put(idTopic, new ArrayList<>());
+
         }
 
         userList.add(new User("Pierre" , "1234" , "PierroDu06"));
@@ -51,9 +54,9 @@ public class Chat {
         for (User user: userList) {
             groupSubscribedPerson.put(user, new ArrayList<>());
             for (String idTopic: allGroups) {
-
                 allRanksOfUsers.get(idTopic).put(user, 0);
                 allFirstTimeInsideTextChannel.get(idTopic).put(user, true);
+                allPrivateMsgQueues.put(user, new LinkedList<>());
             }
             //rankOfUsers.put(user, 0);
             //firstTimeInsideChannel1.put(user, true);
@@ -67,11 +70,69 @@ public class Chat {
         return chat;
     }
 
+    public void addMessageToPvtMsgQueueOfUser(String pseudo, PrivateMessage msg) {
+        allPrivateMsgQueues.get(getUserByPseudo(pseudo)).add(msg);
+        System.out.println("now " + pseudo + " size= "
+        + allPrivateMsgQueues.get(getUserByPseudo(msg.getPseudo())).size());
+    }
+
+    public LinkedList<PrivateMessage> consumeAllMsgsFromQueueOfUser(String pseudo) {
+        LinkedList<PrivateMessage> res = new LinkedList<>();
+        LinkedList<PrivateMessage> toConsume = allPrivateMsgQueues.get(getUserByPseudo(pseudo));
+        while (!toConsume.isEmpty())
+            res.add(toConsume.remove());
+        return res;
+    }
+
+    public int numberOfNewPrivateMessages(String pseudo) {
+        return allPrivateMsgQueues.get(getUserByPseudo(pseudo)).size();
+    }
+
     public void disconnect(String pseudo) {
         User user = getUserByPseudo(pseudo);
+        ClientPrivateMessageInterface userToDisconnect;
+        LinkedList<PrivateMessage> toTransfer;
+        LinkedList<PrivateMessage> serverPvtMessageQueueOfUser = allPrivateMsgQueues.get(user);
+        PrivateMessage msg;
         if (user != null) {
             for (String idTopic: allGroups)
                 allFirstTimeInsideTextChannel.get(idTopic).put(user, true);
+
+            userToDisconnect = user.getPrivateMessageInterface();
+            if (userToDisconnect != null) {
+                try {
+                    toTransfer = userToDisconnect.getPmQueue();
+                    userToDisconnect.emptyDirectPvtMessageQueue();
+                    if (toTransfer.size() > 0) {
+                        while (!toTransfer.isEmpty()) {
+                            msg = toTransfer.remove();
+                            //msg = new PublicMessage(temp.getPseudo(), temp.getMessage());
+                            serverPvtMessageQueueOfUser.add(msg);
+                        }
+                    }
+                    user.setPrivateMessageInterface(null);
+                    user.setPublicMessageInterface(null);
+                } catch (Exception e) {
+                    System.err.println("Error transferring from pvt direct msg queue to server pvt msg queue");
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void loadDirectPvtMsgQueueOfClientFromServer(User user) {
+        LinkedList<PrivateMessage> serverPvtQueueOfUser = allPrivateMsgQueues.get(user);
+        PrivateMessage msg;
+        try {
+            while (!serverPvtQueueOfUser.isEmpty()) {
+                msg = serverPvtQueueOfUser.remove();
+                user.getPrivateMessageInterface().silentAddPrivateMessageToQueue(msg);
+            }
+        } catch (Exception e) {
+            System.err.println(
+                    "Error loading user " + user.getPseudo() +
+                    " direct private message queue from server's private queue of this user");
+            e.printStackTrace();
         }
     }
 
