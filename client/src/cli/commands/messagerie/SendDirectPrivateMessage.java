@@ -38,10 +38,10 @@ public class SendDirectPrivateMessage extends Command<PDPublicAPI> {
     public void execute() throws Exception {
 
         ChatInterface chatInterface = StaticInfo.getChatInterface();
-
+        System.out.println("un");
         ClientPrivateMessageInterface remoteClientMessageInterface =
-                chatInterface.getUserPrivateMassageInterface(pseudo);
-
+                chatInterface.getUserPrivateMessageInterface(pseudo);
+        System.out.println("deux");
         remoteClientMessageInterface.addPrivateMessageToQueue(
                 new PrivateMessage(
                         StaticInfo.getOwnPseudo(),
@@ -49,7 +49,7 @@ public class SendDirectPrivateMessage extends Command<PDPublicAPI> {
                         StaticInfo.getPvtMessageInterface()
                 )
         );
-
+        System.out.println("deux bis");
     }
 
     /*

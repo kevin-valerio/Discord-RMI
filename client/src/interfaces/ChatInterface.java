@@ -16,7 +16,7 @@ public interface ChatInterface extends Remote {
 
     public List<String> getGroupConnection(String group) throws RemoteException, InterruptedException;//, JMSException;
 
-    public ClientPrivateMessageInterface getUserPrivateMassageInterface(String pseudo) throws RemoteException, InterruptedException;
+    public ClientPrivateMessageInterface getUserPrivateMessageInterface(String pseudo) throws RemoteException, InterruptedException;
 
     public String getPseudo() throws RemoteException, InterruptedException;
 

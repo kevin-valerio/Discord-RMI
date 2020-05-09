@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class Chat {
     private static Chat chat;
@@ -80,10 +81,11 @@ public class Chat {
     }
 
     public void broadcastMsgToAllUsersOfTextualChannel(String idTopic) {
-        int value = 0;
         //la liste de messages correspondant au channel textuel #idTopic
         List<PublicMessage> pubMsgList = allTextualChannelMsgLists.get(idTopic);
-        for (User user : userList) {
+        Stream<User> userStream = userList.stream().parallel();
+        userStream.forEach((user) -> {
+            int value = 0;
             //si le user considéré est actuellement présent dans le channel textuel #idTopic
             if (groupSubscribedPerson.get(user).contains(idTopic)) {
                 value = allRanksOfUsers.get(idTopic).get(user);
@@ -109,7 +111,7 @@ public class Chat {
                 allRanksOfUsers.get(idTopic).put(user, pubMsgList.size());
                 allFirstTimeInsideTextChannel.get(idTopic).put(user, false);
             }
-        }
+        });
     }
 
     public boolean removeUserFromGroup(String pseudo, String group) throws RemoteException, InterruptedException {

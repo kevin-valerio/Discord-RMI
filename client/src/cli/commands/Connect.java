@@ -52,13 +52,10 @@ public class Connect extends Command<PDPublicAPI> {
                 Logger.getLogger().println("Welcome "+login + " !");
                 Logger.getLogger().println("Type back to disconnect and ? for help.");
                 Logger.getLogger().println("");
-                /*
-                * TODO: replace "#1" by the channel(s) concerned
-                * */
+
                 String newMsgsNotification = chatInterface.newMsgsFromTextChannels(chatInterface.getPseudo());
                 if (newMsgsNotification != null)
                     Logger.getLogger().println("\u001B[32m" + "\tNEW MESSAGES IN TEXT CHANNEL " + newMsgsNotification + "\u001B[0m");
-
 
                 StaticInfo.setChatInterface(chatInterface);
 
