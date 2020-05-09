@@ -22,9 +22,7 @@ public interface ChatInterface extends Remote {
 
     public void publishMsgOnServ(String idTopic, PublicMessage msg) throws RemoteException, InterruptedException;
 
-    public String checkNewMsgsFromChannel(String pseudo, String idTopic) throws RemoteException, InterruptedException;
-
     public void removeUserFromGroup(String pseudo, String group) throws RemoteException, InterruptedException;
 
-    public boolean newMsgsFromChannel1(String pseudo) throws RemoteException, InterruptedException;
+    public String newMsgsFromTextChannels(String pseudo) throws RemoteException, InterruptedException;
 }

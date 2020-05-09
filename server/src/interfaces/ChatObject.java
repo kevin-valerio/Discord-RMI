@@ -37,11 +37,11 @@ public class ChatObject extends UnicastRemoteObject implements ChatInterface {
     }
 
     @Override
-    public boolean newMsgsFromChannel1(String pseudo) throws RemoteException, InterruptedException {
-        return chat.newMsgsFromChannel1(pseudo);
+    public String newMsgsFromTextChannels(String pseudo) throws RemoteException, InterruptedException {
+        return chat.newMsgsFromTextChannels(pseudo);
     }
 
-    public boolean joinGroup(String group) throws RemoteException, InterruptedException {
+        public boolean joinGroup(String group) throws RemoteException, InterruptedException {
 
         System.out.println(user.getLogin() + " is trying to join topic #" + group);
 
@@ -83,12 +83,6 @@ public class ChatObject extends UnicastRemoteObject implements ChatInterface {
 
         return list;
     }
-
-    @Override
-    public String checkNewMsgsFromChannel(String pseudo, String idTopic) throws RemoteException, InterruptedException {
-        return chat.checkNewMsgsFromChannel(pseudo, idTopic);
-    }
-
 
     @Override
     public ClientPrivateMessageInterface getUserPrivateMassageInterface(String pseudo) throws RemoteException, InterruptedException {

@@ -13,27 +13,35 @@ public class Chat {
     private List<User> userList;
     private  Map<User, List<String>> groupSubscribedPerson;
 
+    private Map<String, List<PublicMessage>> allTextualChannelMsgLists;
+
     /* /!\ 2 following variables for textual channel #1 only
     * TODO: implement similar structures for other channels
     * */
     private Map<User, Integer> rankOfUsers;
     private Map<User, Boolean> firstTimeInsideChannel1;
-    private Map<String, List<PublicMessage>> allTextualChannelMsgLists;
+
+    private Map<String, Map<User, Integer>> allRanksOfUsers;
+    private Map<String, Map<User, Boolean>> allFirstTimeInsideTextChannel;
+
 
     Chat()  {
         allGroups = new ArrayList<>();
         groupSubscribedPerson = new HashMap<>();
-        rankOfUsers = new HashMap<>();
-        firstTimeInsideChannel1 = new HashMap<>();
+        allRanksOfUsers = new HashMap<>();
+        allFirstTimeInsideTextChannel = new HashMap<>();
         allTextualChannelMsgLists = new HashMap<>();
         userList = new ArrayList<>();
 
         allGroups.add("1"); // here, 1 is the name of a channel (not very good idea, should better have
         allGroups.add("2"); // been channel1, for instance!  But I've kept this so this is in line
         allGroups.add("3"); // with the provided documentation (see the PDF file)
-        allTextualChannelMsgLists.put("1", new ArrayList<>());
-        allTextualChannelMsgLists.put("2", new ArrayList<>());
-        allTextualChannelMsgLists.put("3", new ArrayList<>());
+
+        for (String idTopic : allGroups) {
+            allRanksOfUsers.put(idTopic, new HashMap<>());
+            allFirstTimeInsideTextChannel.put(idTopic, new HashMap<>());
+            allTextualChannelMsgLists.put(idTopic, new ArrayList<>());
+        }
 
         userList.add(new User("Pierre" , "1234" , "PierroDu06"));
         userList.add(new User("Alice" , "4567" , "AliceDu74"));
@@ -41,8 +49,13 @@ public class Chat {
 
         for (User user: userList) {
             groupSubscribedPerson.put(user, new ArrayList<>());
-            rankOfUsers.put(user, 0);
-            firstTimeInsideChannel1.put(user, true);
+            for (String idTopic: allGroups) {
+
+                allRanksOfUsers.get(idTopic).put(user, 0);
+                allFirstTimeInsideTextChannel.get(idTopic).put(user, true);
+            }
+            //rankOfUsers.put(user, 0);
+            //firstTimeInsideChannel1.put(user, true);
         }
     }
 
@@ -55,8 +68,10 @@ public class Chat {
 
     public void disconnect(String pseudo) {
         User user = getUserByPseudo(pseudo);
-        if (user != null)
-            firstTimeInsideChannel1.put(user, true);
+        if (user != null) {
+            for (String idTopic: allGroups)
+                allFirstTimeInsideTextChannel.get(idTopic).put(user, true);
+        }
     }
 
     public void addMsgToTextualChannelMsgList(String idTopic, PublicMessage msg) {
@@ -65,47 +80,35 @@ public class Chat {
     }
 
     public void broadcastMsgToAllUsersOfTextualChannel(String idTopic) {
-        int rank = 0;
         int value = 0;
+        //la liste de messages correspondant au channel textuel #idTopic
         List<PublicMessage> pubMsgList = allTextualChannelMsgLists.get(idTopic);
         for (User user : userList) {
+            //si le user considéré est actuellement présent dans le channel textuel #idTopic
             if (groupSubscribedPerson.get(user).contains(idTopic)) {
-                value = rankOfUsers.get(user);
+                value = allRanksOfUsers.get(idTopic).get(user);
                 if (value < pubMsgList.size()) {
-                    if (firstTimeInsideChannel1.get(user)) {
-                        try {
+                    try {
+                        if (allFirstTimeInsideTextChannel.get(idTopic).get(user)) {
                             for (int i = 0; i < value; ++i) {
                                 PublicMessage pm = pubMsgList.get(i);
                                 user.getPublicMessageInterface().displayMessage(pm);
                             }
-                            user.getPublicMessageInterface().displayMessage(new PublicMessage(
-                                    null,
-                                    "--------------> YOU HAVE NEW MESSAGES <--------------"));
-                        } catch (Exception e) {
-                            System.out.println("Error user.getPublicMessageInterface().displayMessage(...)\n\t");
-                            e.printStackTrace();
+                            PublicMessage newNotification = new PublicMessage(null, "new_notif");
+                            user.getPublicMessageInterface().displayMessage(newNotification);
                         }
-                    }
-                    for (int i = value; i < pubMsgList.size(); ++i) {
-                        PublicMessage pm = pubMsgList.get(i);
-                        try {
+                        for (int i = value; i < pubMsgList.size(); ++i) {
+                            PublicMessage pm = pubMsgList.get(i);
                             user.getPublicMessageInterface().displayMessage(pm);
-                        } catch (Exception e) {
-                            System.out.println("Error user.getPublicMessageInterface().displayMessage(...)\n\t");
-                            e.printStackTrace();
                         }
+                    } catch (Exception e) {
+                        System.out.println("Error user.getPublicMessageInterface().displayMessage(...)\n\t");
+                        e.printStackTrace();
                     }
-
                 }
-                rankOfUsers.put(user, pubMsgList.size());
-                firstTimeInsideChannel1.put(user, false);
+                allRanksOfUsers.get(idTopic).put(user, pubMsgList.size());
+                allFirstTimeInsideTextChannel.get(idTopic).put(user, false);
             }
-            /*
-            try {
-                user.getPublicMessageInterface().displayMessage(new PublicMessage(user.getPseudo(), " rank= " + rankOfUsers.get(user)));
-            } catch (Exception e) {
-                System.out.println("ERROR AAAAH 1");
-            } */
         }
     }
 
@@ -114,7 +117,7 @@ public class Chat {
         if(allGroups.contains(group)) {
             if (groupSubscribedPerson.get(user).contains(group)) {
                 groupSubscribedPerson.get(user).remove(group);
-                firstTimeInsideChannel1.put(user, false);
+                allFirstTimeInsideTextChannel.get(group).put(user, false);
                 return true;
             }
         }
@@ -129,25 +132,22 @@ public class Chat {
         return null;
     }
 
-    public boolean newMsgsFromChannel1(String pseudo) {
-        return rankOfUsers.get(getUserByPseudo(pseudo)) < allTextualChannelMsgLists.get("1").size();
-    }
-
-    public String checkNewMsgsFromChannel(String pseudo, String idTopic) {
-        //User user = getUserByPseudo(pseudo);
+    public String newMsgsFromTextChannels(String pseudo) {
         StringBuilder res = new StringBuilder();
-        List<PublicMessage> pubMsgList = allTextualChannelMsgLists.get(idTopic);
-        rankOfUsers.forEach((key, value) -> {
-            if (key.getPseudo().equals(pseudo)) {
-                if (value < pubMsgList.size()) {
-                    for (int i = value; i < pubMsgList.size(); ++i) {
-                        PublicMessage pm = pubMsgList.get(i);
-                    }
-
+        User user = getUserByPseudo(pseudo);
+        if (user != null) {
+            for (String idTopic: allGroups) {
+                if (allRanksOfUsers.get(idTopic).get(user) < allTextualChannelMsgLists.get(idTopic).size()) {
+                    res.append("#");
+                    res.append(idTopic);
+                    res.append(" ");
                 }
             }
-        });
-        return res.toString();
+            if (res.length() == 0)
+                return null;
+            return res.toString();
+        }
+        return null;
     }
 
     public List<String> getAllGroups() {
