@@ -38,7 +38,7 @@ public class ReplyToPrivateMessage extends Command<PDPublicAPI> {
                         StaticInfo.getOwnPseudo(),
                         message.toString(),
                         StaticInfo.getPvtMessageInterface()));
-        remoteClient.notifyClientOfNewPrivateMessages(StaticInfo.getOwnPseudo());
+        //remoteClient.notifyClientOfNewPrivateMessages(StaticInfo.getOwnPseudo());
     }
 
     @Override

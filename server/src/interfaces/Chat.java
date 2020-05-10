@@ -58,8 +58,6 @@ public class Chat {
                 allFirstTimeInsideTextChannel.get(idTopic).put(user, true);
                 allPrivateMsgQueues.put(user, new LinkedList<>());
             }
-            //rankOfUsers.put(user, 0);
-            //firstTimeInsideChannel1.put(user, true);
         }
     }
 
@@ -81,7 +79,7 @@ public class Chat {
         user.setLastEmitterPvtMessagePseudo(msg.getPseudo());
         try {
             if (pmInterface != null) {
-                //pmInterface.notifyClientOfNewPrivateMessages(msg.getPseudo());
+                pmInterface.notifyClientOfNewPrivateMessages(msg.getPseudo());
                 pmInterface.setPvtMessageLastEmitterData(
                         new PrivateMessage(
                                 user.getLastEmitterPvtMessagePseudo(),
@@ -115,28 +113,6 @@ public class Chat {
         if (user != null) {
             for (String idTopic: allGroups)
                 allFirstTimeInsideTextChannel.get(idTopic).put(user, true);
-
-            /*
-            userToDisconnect = user.getPrivateMessageInterface();
-            if (userToDisconnect != null) {
-                try {
-                    toTransfer = userToDisconnect.getPmQueue();
-                    userToDisconnect.emptyDirectPvtMessageQueue();
-                    if (toTransfer.size() > 0) {
-                        while (!toTransfer.isEmpty()) {
-                            msg = toTransfer.remove();
-                            //msg = new PublicMessage(temp.getPseudo(), temp.getMessage());
-                            serverPvtMessageQueueOfUser.add(msg);
-                        }
-                    }
-                    user.setPrivateMessageInterface(null);
-                    user.setPublicMessageInterface(null);
-                } catch (Exception e) {
-                    System.err.println("Error transferring from pvt direct msg queue to server pvt msg queue");
-                    e.printStackTrace();
-                }
-            }
-            */
             //user.setPrivateMessageInterface(null);
             //user.setPublicMessageInterface(null);
         }

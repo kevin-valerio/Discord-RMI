@@ -26,8 +26,8 @@ public class ClientPrivateMessageImpl extends UnicastRemoteObject implements Cli
         Logger.getLogger().flush();
         Logger.getLogger().println();
         Logger.getLogger().println();
-        Logger.getLogger().println("New private message received from \u001B[31m" + pm.getPseudo() + "\u001B[0m");
-        Logger.getLogger().println("Use the appropriate command to check pending private messages");
+        Logger.getLogger().println("\u001B[33mNew private message received from \u001B[31m" + pm.getPseudo() + "\u001B[0m");
+        Logger.getLogger().println("\u001B[32mUse the appropriate command to check pending private messages\u001B[0m");
         StaticInfo.setLastEmitterDirectPvtMessageInterface(pm.getPmInterface());
         StaticInfo.setLastEmitterDirectPvtMessagePseudo(pm.getPseudo());
         Logger.getLogger().println();

@@ -42,7 +42,7 @@ public class SendDirectPrivateMessage extends Command<PDPublicAPI> {
         if (remoteClientMessageInterface != null) {  //if remoteClient is connected
             Logger.getLogger().println(
                     "\t\u001B[32mUser " + "\u001B[31m" + StaticInfo.getOwnPseudo()
-                            + "\u001B[32msuccessfully sent Direct Private Message to "
+                            + "\u001B[32m successfully sent Direct Private Message to "
                             + "\u001B[31m" + pseudo + "\u001B[0m");
             remoteClientMessageInterface.addPrivateMessageToQueue(
                     new PrivateMessage(

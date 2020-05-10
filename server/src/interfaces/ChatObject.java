@@ -37,13 +37,6 @@ public class ChatObject extends UnicastRemoteObject implements ChatInterface {
         chat.addMsgToTextualChannelMsgList(idTopic, msg);
     }
 
-    /*
-    @Override
-    public void loadDirectPvtMsgQueueOfClientFromServer(User user) {
-        chat.loadDirectPvtMsgQueueOfClientFromServer(user);
-    }
-    */
-
     @Override
     public void addMessageToPvtMsgQueueOfUser(String pseudo, PrivateMessage msg) {
         chat.addMessageToPvtMsgQueueOfUser(pseudo, msg);
