@@ -79,12 +79,13 @@ public class Chat {
         user.setLastEmitterPvtMessagePseudo(msg.getPseudo());
         try {
             if (pmInterface != null) {
-                pmInterface.notifyClientOfNewPrivateMessages(msg.getPseudo());
                 pmInterface.setPvtMessageLastEmitterData(
                         new PrivateMessage(
                                 user.getLastEmitterPvtMessagePseudo(),
                                 null,
                                 user.getLastEmitterPvtMessageInterface()));
+                if (user.isConnected)
+                    pmInterface.notifyClientOfNewPrivateMessages(msg.getPseudo());
             }
         } catch (Exception e) {
             System.err.println("Error while attempting to add message in server private queue of user " + pseudo);
@@ -115,6 +116,7 @@ public class Chat {
                 allFirstTimeInsideTextChannel.get(idTopic).put(user, true);
             //user.setPrivateMessageInterface(null);
             //user.setPublicMessageInterface(null);
+            user.isConnected = false;
         }
     }
 

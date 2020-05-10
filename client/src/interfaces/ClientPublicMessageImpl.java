@@ -4,6 +4,7 @@ import logging.Logger;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import Colors.ANSI;
 import java.util.LinkedList;
 
 public class ClientPublicMessageImpl extends UnicastRemoteObject implements ClientPublicMessageInterface {
@@ -16,9 +17,9 @@ public class ClientPublicMessageImpl extends UnicastRemoteObject implements Clie
     public void displayMessage(PublicMessage message) throws RemoteException, InterruptedException {
         if (message.getPseudo() != null)
             Logger.getLogger().println(
-                    "\u001B[47m" + "\u001B[31m" + message.getPseudo() + ": "
-                            + "\u001B[30m" + message.getMessage()
-                            + "\u001B[0m" + "\u001B[40m" + "\u001B[0m");
+                    ANSI.UNDERLINE + ANSI.BACKGROUND_WHITE + ANSI.YELLOW + message.getPseudo() + ":"
+                            + ANSI.SANE + ANSI.BACKGROUND_WHITE + ANSI.GREEN + " " + message.getMessage()
+                            + ANSI.SANE + "\u001B[40m" + ANSI.SANE);
         else if (message.getMessage().equals("new_notif"))
             Logger.getLogger().println(
                     "\u001B[32m" + "--------------> YOU HAVE NEW MESSAGES <--------------"

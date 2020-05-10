@@ -36,6 +36,7 @@ public class ConnectionObject extends UnicastRemoteObject
                                 user.getLastEmitterPvtMessagePseudo(),
                                 null,
                                 user.getLastEmitterPvtMessageInterface()));
+                user.isConnected = true;
                 //messagerieObject.loadDirectPvtMsgQueueOfClientFromServer(user);
                 System.out.println(user.getLogin() + " is now connected");
                 return messagerieObject;

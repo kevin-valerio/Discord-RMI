@@ -1,5 +1,6 @@
 package cli.commands.messagerie;
 
+import Colors.ANSI;
 import api.PDPublicAPI;
 import cli.framework.Command;
 import interfaces.PrivateMessage;
@@ -26,7 +27,7 @@ public class CheckPrivateMessages extends Command<PDPublicAPI> {
             //StaticInfo.setLastEmitterPvtMessageInterface(pm.getPmInterface());
             //StaticInfo.setLastEmitterPvtMessagePseudo(pm.getPseudo());
         }
-        Logger.getLogger().println("No more private message\n");
+        Logger.getLogger().println("\u001B[32mNo more private message" + ANSI.SANE + "\n");
     }
 
     @Override

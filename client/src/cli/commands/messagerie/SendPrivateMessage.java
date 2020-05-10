@@ -41,8 +41,8 @@ public class SendPrivateMessage extends Command<PDPublicAPI> {
                         StaticInfo.getPvtMessageInterface()
                 ));
         Logger.getLogger().println(
-                "\n\u001B[33m" + "user " + "\u001B[31m" + StaticInfo.getOwnPseudo()
-                        + "\u001B[33m successfully sent Private Message to "
+                "\n\u001B[32m" + "user " + "\u001B[31m" + StaticInfo.getOwnPseudo()
+                        + "\u001B[32m successfully sent Private Message to "
                         + "\u001B[31m" + pseudo + "\u001B[0m");
     }
 

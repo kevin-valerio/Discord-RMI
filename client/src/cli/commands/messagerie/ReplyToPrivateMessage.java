@@ -1,10 +1,12 @@
 package cli.commands.messagerie;
 
+import Colors.ANSI;
 import api.PDPublicAPI;
 import cli.framework.Command;
 import interfaces.ClientPrivateMessageInterface;
 import interfaces.PrivateMessage;
 import interfaces.StaticInfo;
+import logging.Logger;
 
 import java.util.Iterator;
 import java.util.List;
@@ -32,6 +34,12 @@ public class ReplyToPrivateMessage extends Command<PDPublicAPI> {
         ClientPrivateMessageInterface remoteClient = StaticInfo.getLastEmitterPvtMessageInterface();
         System.out.println("last emitter pvt msg pseudo => " + lastEmitterPvtMessagePseudo);
         System.out.println("staticinfo.getchatinterface() => " + StaticInfo.getChatInterface());
+        if (lastEmitterPvtMessagePseudo == null) {
+            Logger.getLogger().println(
+                    ANSI.RED + "ERROR: " + ANSI.GREEN
+                            + "No Last Emitter of Private Message (as of now)"+ ANSI.SANE);
+            return;
+        }
         StaticInfo.getChatInterface().addMessageToPvtMsgQueueOfUser(
                 lastEmitterPvtMessagePseudo,
                 new PrivateMessage(

@@ -1,5 +1,6 @@
 package cli.commands.messagerie;
 
+import Colors.ANSI;
 import api.PDPublicAPI;
 import cli.commands.Return;
 import cli.framework.Command;
@@ -45,10 +46,9 @@ public class VisualiseGroup extends Command<PDPublicAPI> {
                     new java.io.BufferedReader(new java.io.InputStreamReader(System.in));
             while (true)
             {
-                //String res = StaticInfo.getChatInterface().checkNewMsgsFromChannel(pseudo, idTopic);
-                // System.out.println(res);
+                //PROMPT: mauvaise idée /!\
+                //System.out.print(ANSI.CYAN + pseudo + "> ");
                 String s = stdin.readLine();
-
 
                 if(s == null){
                     exit();
@@ -57,14 +57,8 @@ public class VisualiseGroup extends Command<PDPublicAPI> {
                     exit();
                 }
                 else if (s.length()>0) {
-                    //String msg="";
-                    //msg="\u001B[47m"+"\u001B[31m"+pseudo + ": " +"\u001B[30m" + s + "\u001B[0m" + "\u001B[40m";
-
-                    //Publish the message :
-                    //System.out.println("Recu msg"+msg);
                     PublicMessage msg = new PublicMessage(pseudo, s);
                     StaticInfo.getChatInterface().publishMsgOnServ(idTopic, msg);
-
                 }
             }
         }

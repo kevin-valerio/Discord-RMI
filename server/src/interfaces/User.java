@@ -8,6 +8,7 @@ public class User {
     private String pseudo;
     private ClientPrivateMessageInterface lastEmitterPvtMessageInterface;
     private String lastEmitterPvtMessagePseudo;
+    public boolean isConnected = false;
 
     private ClientPrivateMessageInterface privateMessageInterface;
     private ClientPublicMessageInterface publicMessageInterface;
