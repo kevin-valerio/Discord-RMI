@@ -1,6 +1,7 @@
 package cli.framework;
 
 
+import Colors.ANSI;
 import interfaces.StaticInfo;
 import logging.Logger;
 
@@ -23,7 +24,7 @@ public class Shell<T> {
         while (shouldContinue) {
             Logger.getLogger().flush();
             menu();
-            System.out.print(invite + " > ");
+            System.out.print(invite + ANSI.YELLOW + " > " + ANSI.SANE);
 
             String keyword = scanner.next().trim();
 

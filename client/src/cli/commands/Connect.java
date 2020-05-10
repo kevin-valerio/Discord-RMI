@@ -69,9 +69,9 @@ public class Connect extends Command<PDPublicAPI> {
             System.out.println("nummmber côté server => " + numberOfNewPvtMsgs);
 
             if (numberOfNewPvtMsgs > 0) {
-                System.out.println("1");
+                //System.out.println("1");
                 Logger.getLogger().flush();
-                System.out.println("2");
+                //System.out.println("2");
                 if (numberOfNewPvtMsgs == 1) {
                     uniqueMsg = chatInterface.getCopyOfUniqueMessage(chatInterface.getPseudo());
                     Logger.getLogger().println(
@@ -86,14 +86,12 @@ public class Connect extends Command<PDPublicAPI> {
                                 + ANSI.SANE);
             }
 
-            System.out.println("3");
+            //System.out.println("3");
             StaticInfo.setChatInterface(chatInterface);
-            //StaticInfo.setLastEmitterPvtMessagePseudo();
-            //StaticInfo.setLastEmitterPvtMessageInterface();
 
             Shell<PDPublicAPI> shell = new Shell<>();
             shell.system = new PDPublicAPI();
-            shell.invite = "Discord";
+            shell.invite = ANSI.BLUE + "Discord";
             shell.register(
                     Return.class,
                     GetListGroup.class,
@@ -109,7 +107,6 @@ public class Connect extends Command<PDPublicAPI> {
             );
             StaticInfo.setCurrentShell(shell);
             shell.run();
-
 
         } catch (Exception e) {
             System.out.println(e);

@@ -90,7 +90,7 @@ public class VisualiseGroup extends Command<PDPublicAPI> {
         StaticInfo.exitVisualisingGroup();
         Shell<PDPublicAPI> shell = new Shell<>();
         shell.system = new PDPublicAPI();
-        shell.invite = "Discord";
+        shell.invite = ANSI.BLUE + "Discord";
         /*shell.register(
                 GetListGroup.class,
                 GetMyListGroup.class,

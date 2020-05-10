@@ -33,7 +33,7 @@ public class ReplyToPrivateMessage extends Command<PDPublicAPI> {
         String lastEmitterPvtMessagePseudo = StaticInfo.getLastEmitterPvtMessagePseudo();
         ClientPrivateMessageInterface remoteClient = StaticInfo.getLastEmitterPvtMessageInterface();
         System.out.println("last emitter pvt msg pseudo => " + lastEmitterPvtMessagePseudo);
-        System.out.println("staticinfo.getchatinterface() => " + StaticInfo.getChatInterface());
+        //System.out.println("staticinfo.getchatinterface() => " + StaticInfo.getChatInterface());
         if (lastEmitterPvtMessagePseudo == null) {
             Logger.getLogger().println(
                     ANSI.RED + "ERROR: " + ANSI.GREEN
@@ -47,6 +47,10 @@ public class ReplyToPrivateMessage extends Command<PDPublicAPI> {
                         message.toString(),
                         StaticInfo.getPvtMessageInterface()));
         //remoteClient.notifyClientOfNewPrivateMessages(StaticInfo.getOwnPseudo());
+        Logger.getLogger().println(
+                "\t\u001B[32mUser " + "\u001B[31m" + StaticInfo.getOwnPseudo()
+                        + "\u001B[32m successfully sent Direct Private Message to "
+                        + ANSI.RED + lastEmitterPvtMessagePseudo + ANSI.SANE);
     }
 
     @Override

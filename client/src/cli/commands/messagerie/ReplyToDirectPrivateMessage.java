@@ -1,10 +1,12 @@
 package cli.commands.messagerie;
 
+import Colors.ANSI;
 import api.PDPublicAPI;
 import cli.framework.Command;
 import interfaces.ClientPrivateMessageInterface;
 import interfaces.PrivateMessage;
 import interfaces.StaticInfo;
+import logging.Logger;
 
 import java.util.Iterator;
 import java.util.List;
@@ -30,6 +32,12 @@ public class ReplyToDirectPrivateMessage extends Command<PDPublicAPI> {
     public void execute() throws Exception {
         ClientPrivateMessageInterface remoteClientMessageInterface =
                 StaticInfo.getLastEmitterDirectPvtMessageInterface();
+        if (remoteClientMessageInterface == null) {
+            Logger.getLogger().println(
+                    ANSI.RED + "ERROR: " + ANSI.GREEN
+                            + "No Last Emitter of Direct Private Message (as of now)"+ ANSI.SANE);
+            return;
+        }
         remoteClientMessageInterface.addPrivateMessageToQueue(
                 new PrivateMessage(
                         StaticInfo.getOwnPseudo(),
@@ -37,6 +45,10 @@ public class ReplyToDirectPrivateMessage extends Command<PDPublicAPI> {
                         StaticInfo.getPvtMessageInterface()
                 )
         );
+        Logger.getLogger().println(
+                "\t\u001B[32mUser " + "\u001B[31m" + StaticInfo.getOwnPseudo()
+                        + "\u001B[32m successfully sent Direct Private Message to "
+                        + ANSI.RED + StaticInfo.getLastEmitterDirectPvtMessagePseudo() + ANSI.SANE);
     }
 
     @Override

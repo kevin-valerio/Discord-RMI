@@ -1,5 +1,6 @@
 package main;
 
+import Colors.ANSI;
 import api.PDPublicAPI;
 import cli.commands.Connect;
 import cli.commands.Help;
@@ -16,7 +17,7 @@ public class Client extends Shell<PDPublicAPI> {
 
     public Client(){
         super.system = new PDPublicAPI();
-        super.invite = "Discord";
+        super.invite = ANSI.BLUE + "Discord";
 
         register(
                 Connect.class,

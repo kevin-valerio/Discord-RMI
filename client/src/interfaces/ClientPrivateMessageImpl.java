@@ -1,5 +1,6 @@
 package interfaces;
 
+import Colors.ANSI;
 import api.PDPublicAPI;
 import cli.commands.Return;
 import cli.commands.messagerie.*;
@@ -44,7 +45,7 @@ public class ClientPrivateMessageImpl extends UnicastRemoteObject implements Cli
         Logger.getLogger().println("\n\u001B[33mNew private message received from \u001B[31m" + emitterPseudo + "\u001B[0m");
         Logger.getLogger().println("\u001B[32mUse the appropriate command to check pending private messages\u001B[0m\n");
         if (!StaticInfo.isCurrentlyVisualisingGroup())
-            System.out.print("Discord " + " > ");
+            System.out.print(ANSI.BLUE + "Discord " + ANSI.YELLOW +  " > " + ANSI.SANE);
     }
 
     @Override
@@ -84,7 +85,7 @@ public class ClientPrivateMessageImpl extends UnicastRemoteObject implements Cli
         System.out.print("==> |");
         System.out.println("|<===\n");
         shell.system = new PDPublicAPI();
-        shell.invite = "Discord";
+        shell.invite = ANSI.BLUE + "Discord";
         shell.register(
                 Return.class,
                 ReplyToDirectPrivateMessage.class);
