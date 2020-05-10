@@ -71,9 +71,18 @@ public class Chat {
     }
 
     public void addMessageToPvtMsgQueueOfUser(String pseudo, PrivateMessage msg) {
-        allPrivateMsgQueues.get(getUserByPseudo(pseudo)).add(msg);
+        User user = getUserByPseudo(pseudo);
+        allPrivateMsgQueues.get(user).add(msg);
         System.out.println("now " + pseudo + " size= "
-        + allPrivateMsgQueues.get(getUserByPseudo(msg.getPseudo())).size());
+                + allPrivateMsgQueues.get(user).size());
+        ClientPrivateMessageInterface pmInterface = user.getPrivateMessageInterface();
+        try {
+            if (pmInterface != null)
+                pmInterface.setPvtMessageLastEmitterData(msg);
+        } catch (Exception e) {
+            System.err.println("Error while attempting to add message in server private queue of user " + pseudo);
+            e.printStackTrace();
+        }
     }
 
     public LinkedList<PrivateMessage> consumeAllMsgsFromQueueOfUser(String pseudo) {
@@ -98,6 +107,7 @@ public class Chat {
             for (String idTopic: allGroups)
                 allFirstTimeInsideTextChannel.get(idTopic).put(user, true);
 
+            /*
             userToDisconnect = user.getPrivateMessageInterface();
             if (userToDisconnect != null) {
                 try {
@@ -117,9 +127,13 @@ public class Chat {
                     e.printStackTrace();
                 }
             }
+            */
+            user.setPrivateMessageInterface(null);
+            user.setPublicMessageInterface(null);
         }
     }
 
+    /*
     public void loadDirectPvtMsgQueueOfClientFromServer(User user) {
         LinkedList<PrivateMessage> serverPvtQueueOfUser = allPrivateMsgQueues.get(user);
         PrivateMessage msg;
@@ -135,6 +149,7 @@ public class Chat {
             e.printStackTrace();
         }
     }
+    */
 
     public void addMsgToTextualChannelMsgList(String idTopic, PublicMessage msg) {
         allTextualChannelMsgLists.get(idTopic).add(msg);

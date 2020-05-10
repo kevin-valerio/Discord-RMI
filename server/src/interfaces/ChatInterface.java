@@ -31,7 +31,5 @@ public interface ChatInterface extends Remote {
 
     public int numberOfNewPrivateMessages(String pseudo) throws RemoteException, InterruptedException;
 
-    public void loadDirectPvtMsgQueueOfClientFromServer(User user) throws RemoteException, InterruptedException;
-
     public String newMsgsFromTextChannels(String pseudo) throws RemoteException, InterruptedException;
 }

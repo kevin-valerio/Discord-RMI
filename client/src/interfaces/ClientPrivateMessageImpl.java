@@ -3,14 +3,12 @@ package interfaces;
 import api.PDPublicAPI;
 import cli.commands.Return;
 import cli.commands.messagerie.*;
-import cli.framework.Command;
 import cli.framework.Shell;
 import logging.Logger;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
-import java.util.List;
 
 public class ClientPrivateMessageImpl extends UnicastRemoteObject implements ClientPrivateMessageInterface {
 
@@ -30,8 +28,8 @@ public class ClientPrivateMessageImpl extends UnicastRemoteObject implements Cli
         Logger.getLogger().println();
         Logger.getLogger().println("New private message received from \u001B[31m" + pm.getPseudo() + "\u001B[0m");
         Logger.getLogger().println("Use the appropriate command to check pending private messages");
-        StaticInfo.setLastEmitterMessageInterface(pm.getPmInterface());
-        StaticInfo.setLastEmitterMessagePseudo(pm.getPseudo());
+        StaticInfo.setLastEmitterDirectPvtMessageInterface(pm.getPmInterface());
+        StaticInfo.setLastEmitterDirectPvtMessagePseudo(pm.getPseudo());
         Logger.getLogger().println();
         Shell shell = StaticInfo.getCurrentShell();
 
@@ -43,9 +41,15 @@ public class ClientPrivateMessageImpl extends UnicastRemoteObject implements Cli
 
     @Override
     public void silentAddPrivateMessageToQueue(PrivateMessage pm) throws RemoteException, InterruptedException {
-        StaticInfo.setLastEmitterMessageInterface(pm.getPmInterface());
-        StaticInfo.setLastEmitterMessagePseudo(pm.getPseudo());
+        StaticInfo.setLastEmitterDirectPvtMessageInterface(pm.getPmInterface());
+        StaticInfo.setLastEmitterDirectPvtMessagePseudo(pm.getPseudo());
         this.pmQueue.add(pm);
+    }
+
+    @Override
+    public void setPvtMessageLastEmitterData(PrivateMessage pm) throws RemoteException, InterruptedException {
+        StaticInfo.setLastEmitterPvtMessageInterface(pm.getPmInterface());
+        StaticInfo.setLastEmitterPvtMessagePseudo(pm.getPseudo());
     }
 
     @Override
@@ -66,7 +70,7 @@ public class ClientPrivateMessageImpl extends UnicastRemoteObject implements Cli
         System.out.println("Message received from \u001B[31m" + emitterPseudo + "\u001B[0m");
         System.out.println("\t" +message);
 
-        StaticInfo.setLastEmitterMessageInterface(pvtMessageInterface);
+        StaticInfo.setLastEmitterDirectPvtMessageInterface(pvtMessageInterface);
         //shell.printCommandsIDs();
         Shell<PDPublicAPI> shell = new Shell<>();
         System.out.print("==> |");

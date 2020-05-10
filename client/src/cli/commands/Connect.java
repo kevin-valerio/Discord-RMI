@@ -93,8 +93,11 @@ public class Connect extends Command<PDPublicAPI> {
                         VisualiseGroup.class,
                         JoinGroup.class,
                         SendDirectPrivateMessage.class,
+                        CheckDirectPrivateMessages.class,
+                        ReplyToDirectPrivateMessage.class,
+                        SendPrivateMessage.class,
                         CheckPrivateMessages.class,
-                        ReplyToDirectPrivateMessage.class
+                        ReplyToPrivateMessage.class
                 );
                 StaticInfo.setCurrentShell(shell);
                 shell.run();

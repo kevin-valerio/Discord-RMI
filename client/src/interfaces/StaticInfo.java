@@ -1,6 +1,5 @@
 package interfaces;
 
-import cli.commands.Connect;
 import cli.framework.Shell;
 
 public class StaticInfo {
@@ -12,8 +11,11 @@ public class StaticInfo {
 
 
     private static ClientPrivateMessageImpl pvtMessageInterface;
-    private static String lastEmitterMessagePseudo;
-    private static ClientPrivateMessageInterface lastEmitterMessageInterface;
+    private static String lastEmitterDirectPvtMessagePseudo;
+    private static ClientPrivateMessageInterface lastEmitterDirectPvtMessageInterface;
+    private static String lastEmitterPvtMessagePseudo;
+    private static ClientPrivateMessageInterface lastEmitterPvtMessageInterface;
+
     private static ClientPublicMessageInterface publicMessageInterface;
     private static boolean isVisualisingGroup = false;
 
@@ -24,6 +26,22 @@ public class StaticInfo {
     public static boolean isCurrentlyVisualisingGroup() {return  isVisualisingGroup;}
 
     private static Shell currentShell;
+
+    public static void setLastEmitterPvtMessagePseudo(String lastEmitterPvtMessagePseudo) {
+        StaticInfo.lastEmitterPvtMessagePseudo = lastEmitterPvtMessagePseudo;
+    }
+
+    public static String getLastEmitterPvtMessagePseudo() {
+        return lastEmitterPvtMessagePseudo;
+    }
+
+    public static void setLastEmitterPvtMessageInterface(ClientPrivateMessageInterface lastEmitterPvtMessageInterface) {
+        StaticInfo.lastEmitterPvtMessageInterface = lastEmitterPvtMessageInterface;
+    }
+
+    public static ClientPrivateMessageInterface getLastEmitterPvtMessageInterface() {
+        return lastEmitterPvtMessageInterface;
+    }
 
     public static void setPublicMessageInterface(ClientPublicMessageInterface publicMessageInterface) {
         StaticInfo.publicMessageInterface = publicMessageInterface;
@@ -70,20 +88,20 @@ public class StaticInfo {
         StaticInfo.ownPseudo = ownPseudo;
     }
 
-    public static ClientPrivateMessageInterface getLastEmitterMessageInterface() {
-        return lastEmitterMessageInterface;
+    public static ClientPrivateMessageInterface getLastEmitterDirectPvtMessageInterface() {
+        return lastEmitterDirectPvtMessageInterface;
     }
 
-    public static void setLastEmitterMessageInterface(ClientPrivateMessageInterface pvtMessageInterface) {
-        lastEmitterMessageInterface = pvtMessageInterface;
+    public static void setLastEmitterDirectPvtMessageInterface(ClientPrivateMessageInterface pvtMessageInterface) {
+        lastEmitterDirectPvtMessageInterface = pvtMessageInterface;
     }
 
-    public static String getLastEmitterMessagePseudo() {
-        return lastEmitterMessagePseudo;
+    public static String getLastEmitterDirectPvtMessagePseudo() {
+        return lastEmitterDirectPvtMessagePseudo;
     }
 
-    public static void setLastEmitterMessagePseudo(String lastEmitterMessagePseudo) {
-        StaticInfo.lastEmitterMessagePseudo = lastEmitterMessagePseudo;
+    public static void setLastEmitterDirectPvtMessagePseudo(String lastEmitterDirectPvtMessagePseudo) {
+        StaticInfo.lastEmitterDirectPvtMessagePseudo = lastEmitterDirectPvtMessagePseudo;
     }
 
     public static Shell getCurrentShell() {

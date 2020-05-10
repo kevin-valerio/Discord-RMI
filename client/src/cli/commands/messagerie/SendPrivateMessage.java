@@ -2,24 +2,29 @@ package cli.commands.messagerie;
 
 import api.PDPublicAPI;
 import cli.framework.Command;
-import interfaces.ClientPrivateMessageInterface;
-import interfaces.PrivateMessage;
-import interfaces.StaticInfo;
+import interfaces.*;
+import logging.Logger;
 
 import java.util.Iterator;
 import java.util.List;
 
-public class ReplyToDirectPrivateMessage extends Command<PDPublicAPI> {
+public class SendPrivateMessage extends Command<PDPublicAPI> {
 
-    private StringBuilder message = new StringBuilder();
+    private String pseudo;
+
+    private final StringBuilder message = new StringBuilder();
 
     @Override
-    public String identifier() { return "Reply to last direct private message";
+    public String identifier() {
+        return "Send a private message";
     }
 
     @Override
     public void load(List<String> args) {
         Iterator<String> it = args.iterator();
+        if (it.hasNext())
+            pseudo = it.next();
+
         while (it.hasNext()) {
             message.append(it.next());
             message.append(" ");
@@ -28,19 +33,22 @@ public class ReplyToDirectPrivateMessage extends Command<PDPublicAPI> {
 
     @Override
     public void execute() throws Exception {
-        ClientPrivateMessageInterface remoteClientMessageInterface =
-                StaticInfo.getLastEmitterDirectPvtMessageInterface();
-        remoteClientMessageInterface.addPrivateMessageToQueue(
+        StaticInfo.getChatInterface().addMessageToPvtMsgQueueOfUser(
+                pseudo,
                 new PrivateMessage(
                         StaticInfo.getOwnPseudo(),
                         message.toString(),
                         StaticInfo.getPvtMessageInterface()
-                )
-        );
+                ));
+        Logger.getLogger().println(
+                "\t\u001B[32m" + "user " + "\u001B[31m" + StaticInfo.getOwnPseudo()
+                        + "\u001B[32msuccessfully sent direct private message to"
+                        + "\u001B[31m" + pseudo + "\u001B[0m");
     }
 
     @Override
     public String describe() {
         return null;
     }
+
 }

@@ -2,19 +2,18 @@ package cli.commands.messagerie;
 
 import api.PDPublicAPI;
 import cli.framework.Command;
-import interfaces.ClientPrivateMessageInterface;
 import interfaces.PrivateMessage;
 import interfaces.StaticInfo;
 
 import java.util.Iterator;
 import java.util.List;
 
-public class ReplyToDirectPrivateMessage extends Command<PDPublicAPI> {
+public class ReplyToPrivateMessage extends Command<PDPublicAPI> {
 
-    private StringBuilder message = new StringBuilder();
+    private final StringBuilder message = new StringBuilder();
 
     @Override
-    public String identifier() { return "Reply to last direct private message";
+    public String identifier() { return "Reply to last private message";
     }
 
     @Override
@@ -28,15 +27,13 @@ public class ReplyToDirectPrivateMessage extends Command<PDPublicAPI> {
 
     @Override
     public void execute() throws Exception {
-        ClientPrivateMessageInterface remoteClientMessageInterface =
-                StaticInfo.getLastEmitterDirectPvtMessageInterface();
-        remoteClientMessageInterface.addPrivateMessageToQueue(
+        String lastEmitterPvtMessagePseudo = StaticInfo.getLastEmitterPvtMessagePseudo();
+        StaticInfo.getChatInterface().addMessageToPvtMsgQueueOfUser(
+                lastEmitterPvtMessagePseudo,
                 new PrivateMessage(
                         StaticInfo.getOwnPseudo(),
                         message.toString(),
-                        StaticInfo.getPvtMessageInterface()
-                )
-        );
+                        StaticInfo.getPvtMessageInterface()));
     }
 
     @Override

@@ -40,7 +40,10 @@ public class SendDirectPrivateMessage extends Command<PDPublicAPI> {
                 chatInterface.getUserPrivateMessageInterface(pseudo);
 
         if (remoteClientMessageInterface != null) {  //if remoteClient is connected
-            System.out.println(StaticInfo.getOwnPseudo() + "sends direct private message");
+            Logger.getLogger().println(
+                    "\t\u001B[32muser " + "\u001B[31m" + StaticInfo.getOwnPseudo()
+                            + "\u001B[32msuccessfully sent direct private message to"
+                            + "\u001B[31m" + pseudo + "\u001B[0m");
             remoteClientMessageInterface.addPrivateMessageToQueue(
                     new PrivateMessage(
                             StaticInfo.getOwnPseudo(),
@@ -49,14 +52,9 @@ public class SendDirectPrivateMessage extends Command<PDPublicAPI> {
         } else {
             Logger.getLogger().println(
                     "\t\u001B[32m" + "recipient " + "\u001B[31m" + pseudo + "\t\u001B[32m"
-                            + "is currently disconnected\n\tyour message was saved in server"
-                            + "\t\u001B[0m");
-            StaticInfo.getChatInterface().addMessageToPvtMsgQueueOfUser(
-                    pseudo,
-                    new PrivateMessage(
-                            StaticInfo.getOwnPseudo(),
-                            message.toString(),
-                            StaticInfo.getPvtMessageInterface()));
+                            + "is currently disconnected\n" + "\u001B[31m"
+                            + "\tFailed \u001B[32mto route direct message to " + "\u001B[31m" + pseudo
+                            + "\u001B[0m");
         }
     }
 
