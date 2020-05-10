@@ -2,6 +2,7 @@ package cli.commands.messagerie;
 
 import api.PDPublicAPI;
 import cli.framework.Command;
+import interfaces.ClientPrivateMessageInterface;
 import interfaces.PrivateMessage;
 import interfaces.StaticInfo;
 
@@ -28,12 +29,16 @@ public class ReplyToPrivateMessage extends Command<PDPublicAPI> {
     @Override
     public void execute() throws Exception {
         String lastEmitterPvtMessagePseudo = StaticInfo.getLastEmitterPvtMessagePseudo();
+        ClientPrivateMessageInterface remoteClient = StaticInfo.getLastEmitterPvtMessageInterface();
+        System.out.println("last emitter pvt msg pseudo => " + lastEmitterPvtMessagePseudo);
+        System.out.println("staticinfo.getchatinterface() => " + StaticInfo.getChatInterface());
         StaticInfo.getChatInterface().addMessageToPvtMsgQueueOfUser(
                 lastEmitterPvtMessagePseudo,
                 new PrivateMessage(
                         StaticInfo.getOwnPseudo(),
                         message.toString(),
                         StaticInfo.getPvtMessageInterface()));
+        remoteClient.notifyClientOfNewPrivateMessages(StaticInfo.getOwnPseudo());
     }
 
     @Override

@@ -16,7 +16,9 @@ public interface ClientPrivateMessageInterface extends Remote {
 
     public void setPvtMessageLastEmitterData(PrivateMessage pm) throws RemoteException, InterruptedException;
 
-    void receivePrivateMessage(
+    public void notifyClientOfNewPrivateMessages(String pseudo) throws RemoteException, InterruptedException;
+
+        void receivePrivateMessage(
             String emitterPseudo,
             ClientPrivateMessageInterface pvtMessageInterface,
             String message) throws RemoteException, InterruptedException;

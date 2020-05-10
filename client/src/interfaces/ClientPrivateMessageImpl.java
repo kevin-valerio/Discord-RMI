@@ -40,6 +40,14 @@ public class ClientPrivateMessageImpl extends UnicastRemoteObject implements Cli
     }
 
     @Override
+    public void notifyClientOfNewPrivateMessages(String emitterPseudo) throws RemoteException, InterruptedException {
+        Logger.getLogger().println("\n\u001B[33mNew private message received from \u001B[31m" + emitterPseudo + "\u001B[0m");
+        Logger.getLogger().println("\u001B[32mUse the appropriate command to check pending private messages\u001B[0m\n");
+        if (!StaticInfo.isCurrentlyVisualisingGroup())
+            System.out.print("Discord " + " > ");
+    }
+
+    @Override
     public void silentAddPrivateMessageToQueue(PrivateMessage pm) throws RemoteException, InterruptedException {
         StaticInfo.setLastEmitterDirectPvtMessageInterface(pm.getPmInterface());
         StaticInfo.setLastEmitterDirectPvtMessagePseudo(pm.getPseudo());

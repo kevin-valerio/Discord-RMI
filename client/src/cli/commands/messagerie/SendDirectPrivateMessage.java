@@ -41,8 +41,8 @@ public class SendDirectPrivateMessage extends Command<PDPublicAPI> {
 
         if (remoteClientMessageInterface != null) {  //if remoteClient is connected
             Logger.getLogger().println(
-                    "\t\u001B[32muser " + "\u001B[31m" + StaticInfo.getOwnPseudo()
-                            + "\u001B[32msuccessfully sent direct private message to"
+                    "\t\u001B[32mUser " + "\u001B[31m" + StaticInfo.getOwnPseudo()
+                            + "\u001B[32msuccessfully sent Direct Private Message to "
                             + "\u001B[31m" + pseudo + "\u001B[0m");
             remoteClientMessageInterface.addPrivateMessageToQueue(
                     new PrivateMessage(
@@ -51,7 +51,7 @@ public class SendDirectPrivateMessage extends Command<PDPublicAPI> {
                             StaticInfo.getPvtMessageInterface()));
         } else {
             Logger.getLogger().println(
-                    "\t\u001B[32m" + "recipient " + "\u001B[31m" + pseudo + "\t\u001B[32m"
+                    "\t\u001B[32m" + "Recipient " + "\u001B[31m" + pseudo + "\t\u001B[32m"
                             + "is currently disconnected\n" + "\u001B[31m"
                             + "\tFailed \u001B[32mto route direct message to " + "\u001B[31m" + pseudo
                             + "\u001B[0m");

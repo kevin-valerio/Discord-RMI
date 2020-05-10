@@ -77,11 +77,13 @@ public class Connect extends Command<PDPublicAPI> {
                         Logger.getLogger().println(
                                 "\u001B[32m" + "New private messages received" + "\u001B[0m");
                     }
-                    Logger.getLogger().println("Use the appropriate command to check pending private messages");
+                    Logger.getLogger().println("Use the appropriate command to check pending private messages\n");
                 }
 
                 System.out.println("3");
                 StaticInfo.setChatInterface(chatInterface);
+                //StaticInfo.setLastEmitterPvtMessagePseudo();
+                //StaticInfo.setLastEmitterPvtMessageInterface();
 
                 Shell<PDPublicAPI> shell = new Shell<>();
                 shell.system = new PDPublicAPI();

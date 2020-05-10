@@ -20,11 +20,11 @@ public class CheckDirectPrivateMessages extends Command<PDPublicAPI> {
             try {
                 currentMessage = StaticInfo.getPvtMessageInterface().consumePrivateMessage();
 
-                Logger.getLogger().println("Private message received from \u001B[31m" + currentMessage.getPseudo() + "\u001B[0m");
+                Logger.getLogger().println("\u001B[32mPrivate message received from \u001B[31m" + currentMessage.getPseudo() + "\u001B[0m");
                 Logger.getLogger().println("\t" + currentMessage.getMessage());
                 Logger.getLogger().println();
             } catch (Exception e) {
-                Logger.getLogger().println("No more private message");
+                Logger.getLogger().println("\u001B[32mNo more private message\u001B[0m");
                 Logger.getLogger().println();
                 break;
             }

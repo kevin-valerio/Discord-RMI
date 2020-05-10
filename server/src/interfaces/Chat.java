@@ -76,9 +76,18 @@ public class Chat {
         System.out.println("now " + pseudo + " size= "
                 + allPrivateMsgQueues.get(user).size());
         ClientPrivateMessageInterface pmInterface = user.getPrivateMessageInterface();
+        System.out.println("stub of user= " + pseudo + " null? == " + (pmInterface == null));
+        user.setLastEmitterPvtMessageInterface(msg.getPmInterface());
+        user.setLastEmitterPvtMessagePseudo(msg.getPseudo());
         try {
-            if (pmInterface != null)
-                pmInterface.setPvtMessageLastEmitterData(msg);
+            if (pmInterface != null) {
+                //pmInterface.notifyClientOfNewPrivateMessages(msg.getPseudo());
+                pmInterface.setPvtMessageLastEmitterData(
+                        new PrivateMessage(
+                                user.getLastEmitterPvtMessagePseudo(),
+                                null,
+                                user.getLastEmitterPvtMessageInterface()));
+            }
         } catch (Exception e) {
             System.err.println("Error while attempting to add message in server private queue of user " + pseudo);
             e.printStackTrace();
@@ -128,28 +137,10 @@ public class Chat {
                 }
             }
             */
-            user.setPrivateMessageInterface(null);
-            user.setPublicMessageInterface(null);
+            //user.setPrivateMessageInterface(null);
+            //user.setPublicMessageInterface(null);
         }
     }
-
-    /*
-    public void loadDirectPvtMsgQueueOfClientFromServer(User user) {
-        LinkedList<PrivateMessage> serverPvtQueueOfUser = allPrivateMsgQueues.get(user);
-        PrivateMessage msg;
-        try {
-            while (!serverPvtQueueOfUser.isEmpty()) {
-                msg = serverPvtQueueOfUser.remove();
-                user.getPrivateMessageInterface().silentAddPrivateMessageToQueue(msg);
-            }
-        } catch (Exception e) {
-            System.err.println(
-                    "Error loading user " + user.getPseudo() +
-                    " direct private message queue from server's private queue of this user");
-            e.printStackTrace();
-        }
-    }
-    */
 
     public void addMsgToTextualChannelMsgList(String idTopic, PublicMessage msg) {
         allTextualChannelMsgLists.get(idTopic).add(msg);

@@ -23,6 +23,8 @@ public class CheckPrivateMessages extends Command<PDPublicAPI> {
             Logger.getLogger().println(
                     "\u001B[32m" + "Private message received from \u001B[31m" + pm.getPseudo() + "\u001B[0m");
             Logger.getLogger().println("\t" + pm.getMessage() + "\n");
+            //StaticInfo.setLastEmitterPvtMessageInterface(pm.getPmInterface());
+            //StaticInfo.setLastEmitterPvtMessagePseudo(pm.getPseudo());
         }
         Logger.getLogger().println("No more private message\n");
     }

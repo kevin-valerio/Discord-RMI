@@ -31,6 +31,11 @@ public class ConnectionObject extends UnicastRemoteObject
                 user.setPrivateMessageInterface(clientPrivateMessageInterface);
                 user.setPublicMessageInterface(clientPublicMessageInterface);
 
+                user.getPrivateMessageInterface().setPvtMessageLastEmitterData(
+                        new PrivateMessage(
+                                user.getLastEmitterPvtMessagePseudo(),
+                                null,
+                                user.getLastEmitterPvtMessageInterface()));
                 //messagerieObject.loadDirectPvtMsgQueueOfClientFromServer(user);
                 System.out.println(user.getLogin() + " is now connected");
                 return messagerieObject;
