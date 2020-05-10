@@ -48,6 +48,11 @@ public class ChatObject extends UnicastRemoteObject implements ChatInterface {
     }
 
     @Override
+    public PrivateMessage getCopyOfUniqueMessage(String pseudo) {
+        return chat.getCopyOfUniqueMessage(pseudo);
+    }
+
+    @Override
     public int numberOfNewPrivateMessages(String pseudo) {
         return chat.numberOfNewPrivateMessages(pseudo);
     }

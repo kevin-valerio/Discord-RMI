@@ -101,6 +101,14 @@ public class Chat {
         return res;
     }
 
+    public PrivateMessage getCopyOfUniqueMessage(String pseudo) {
+        PrivateMessage msg = allPrivateMsgQueues.get(getUserByPseudo(pseudo)).getFirst();
+        return new PrivateMessage(
+                msg.getPseudo(),
+                null,
+                msg.getPmInterface());
+    }
+
     public int numberOfNewPrivateMessages(String pseudo) {
         return allPrivateMsgQueues.get(getUserByPseudo(pseudo)).size();
     }

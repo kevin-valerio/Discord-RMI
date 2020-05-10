@@ -9,7 +9,7 @@ import logging.Logger;
 public class CheckDirectPrivateMessages extends Command<PDPublicAPI> {
     @Override
     public String identifier() {
-        return "Check private messages";
+        return "Check direct Private messages";
     }
 
     @Override

@@ -27,7 +27,9 @@ public interface ChatInterface extends Remote {
 
     public void addMessageToPvtMsgQueueOfUser(String pseudo, PrivateMessage msg) throws RemoteException, InterruptedException;
 
-    public LinkedList<PrivateMessage> consumeAllMsgsFromQueueOfUser(String pseudo) throws RemoteException, InterruptedException;
+    public PrivateMessage getCopyOfUniqueMessage(String pseudo) throws RemoteException, InterruptedException;
+
+        public LinkedList<PrivateMessage> consumeAllMsgsFromQueueOfUser(String pseudo) throws RemoteException, InterruptedException;
 
     public int numberOfNewPrivateMessages(String pseudo) throws RemoteException, InterruptedException;
 
