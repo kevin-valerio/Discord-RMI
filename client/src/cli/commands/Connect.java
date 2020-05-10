@@ -4,7 +4,10 @@ import api.PDPublicAPI;
 import cli.commands.messagerie.*;
 import cli.framework.Command;
 import cli.framework.Shell;
-import interfaces.*;
+import interfaces.ChatInterface;
+import interfaces.ConnectionInterface;
+import interfaces.PrivateMessage;
+import interfaces.StaticInfo;
 import logging.Logger;
 
 import java.rmi.Naming;
@@ -31,8 +34,7 @@ public class Connect extends Command<PDPublicAPI> {
 
     @Override
     public void execute() throws Exception {
-        try
-        {
+        try {
             String address = StaticInfo.getConnection();
             Remote r = Naming.lookup("rmi://" + address + "/Connection");
             ChatInterface chatInterface;
@@ -40,73 +42,76 @@ public class Connect extends Command<PDPublicAPI> {
             chatInterface = connectionInterface.connect(
                     login, password, StaticInfo.getPvtMessageInterface(),
                     StaticInfo.getPublicMessageInterface());
+
+            if (chatInterface == null) {
+                Logger.getLogger().println("Wrong login / password. Try again !");
+                return;
+            }
+
             StaticInfo.setOwnPseudo(chatInterface.getPseudo());
             StaticInfo.setConnectionInterface(connectionInterface);
             int numberOfNewMsgs;
             LinkedList<PrivateMessage> newMessagesQueue = null;
 
-            if (chatInterface == null){
-                Logger.getLogger().println("Wrong login / password. Try again !");
-            }
-            else {
-                Logger.getLogger().println("");
-                Logger.getLogger().println("Welcome " + login + " !");
-                Logger.getLogger().println("Type back to disconnect and ? for help.");
-                Logger.getLogger().println("");
 
-                String newMsgsNotification = chatInterface.newMsgsFromTextChannels(chatInterface.getPseudo());
-                if (newMsgsNotification != null)
-                    Logger.getLogger().println("\u001B[32m" + "\tNEW MESSAGES IN TEXT CHANNEL: \u001B[31m" + newMsgsNotification + "\u001B[0m");
+            Logger.getLogger().println("");
+            Logger.getLogger().println("Welcome " + login + " !");
+            Logger.getLogger().println("Type back to disconnect and ? for help.");
+            Logger.getLogger().println("");
 
-                numberOfNewMsgs = chatInterface.numberOfNewPrivateMessages(chatInterface.getPseudo());
-                System.out.println("nummmber côté server => " + numberOfNewMsgs);
+            String newMsgsNotification = chatInterface.newMsgsFromTextChannels(chatInterface.getPseudo());
+            if (newMsgsNotification != null)
+                Logger.getLogger().println("\u001B[32m" + "\tNEW MESSAGES IN TEXT CHANNEL: \u001B[31m" + newMsgsNotification + "\u001B[0m");
 
-                numberOfNewMsgs = StaticInfo.getPvtMessageInterface().getPmQueue().size();
-                System.out.println("number côté client => " + numberOfNewMsgs);
+            numberOfNewMsgs = chatInterface.numberOfNewPrivateMessages(chatInterface.getPseudo());
+            System.out.println("nummmber côté server => " + numberOfNewMsgs);
 
-                if (numberOfNewMsgs > 0) {
-                    System.out.println("1");;
-                    newMessagesQueue = chatInterface.consumeAllMsgsFromQueueOfUser(chatInterface.getPseudo());
-                    Logger.getLogger().flush();
-                    System.out.println("2");
-                    if (numberOfNewMsgs == 1) {
-                        Logger.getLogger().println(
-                                "\u001B[32m" + "New private message received from \u001B[31m"
-                                        + newMessagesQueue.getFirst().getPseudo() + "\u001B[0m");
-                    } else {
-                        Logger.getLogger().println(
-                                "\u001B[32m" + "New private messages received" + "\u001B[0m");
-                    }
-                    Logger.getLogger().println("Use the appropriate command to check pending private messages\n");
+            numberOfNewMsgs = StaticInfo.getPvtMessageInterface().getPmQueue().size();
+            System.out.println("number côté client => " + numberOfNewMsgs);
+
+            if (numberOfNewMsgs > 0) {
+                System.out.println("1");
+                ;
+                newMessagesQueue = chatInterface.consumeAllMsgsFromQueueOfUser(chatInterface.getPseudo());
+                Logger.getLogger().flush();
+                System.out.println("2");
+                if (numberOfNewMsgs == 1) {
+                    Logger.getLogger().println(
+                            "\u001B[32m" + "New private message received from \u001B[31m"
+                                    + newMessagesQueue.getFirst().getPseudo() + "\u001B[0m");
+                } else {
+                    Logger.getLogger().println(
+                            "\u001B[32m" + "New private messages received" + "\u001B[0m");
                 }
-
-                System.out.println("3");
-                StaticInfo.setChatInterface(chatInterface);
-                //StaticInfo.setLastEmitterPvtMessagePseudo();
-                //StaticInfo.setLastEmitterPvtMessageInterface();
-
-                Shell<PDPublicAPI> shell = new Shell<>();
-                shell.system = new PDPublicAPI();
-                shell.invite = "Discord";
-                shell.register(
-                        Return.class,
-                        GetListGroup.class,
-                        GetMyListGroup.class,
-                        VisualiseGroup.class,
-                        JoinGroup.class,
-                        SendDirectPrivateMessage.class,
-                        CheckDirectPrivateMessages.class,
-                        ReplyToDirectPrivateMessage.class,
-                        SendPrivateMessage.class,
-                        CheckPrivateMessages.class,
-                        ReplyToPrivateMessage.class
-                );
-                StaticInfo.setCurrentShell(shell);
-                shell.run();
+                Logger.getLogger().println("Use the appropriate command to check pending private messages\n");
             }
 
-        }
-        catch (Exception e) {
+            System.out.println("3");
+            StaticInfo.setChatInterface(chatInterface);
+            //StaticInfo.setLastEmitterPvtMessagePseudo();
+            //StaticInfo.setLastEmitterPvtMessageInterface();
+
+            Shell<PDPublicAPI> shell = new Shell<>();
+            shell.system = new PDPublicAPI();
+            shell.invite = "Discord";
+            shell.register(
+                    Return.class,
+                    GetListGroup.class,
+                    GetMyListGroup.class,
+                    VisualiseGroup.class,
+                    JoinGroup.class,
+                    SendDirectPrivateMessage.class,
+                    CheckDirectPrivateMessages.class,
+                    ReplyToDirectPrivateMessage.class,
+                    SendPrivateMessage.class,
+                    CheckPrivateMessages.class,
+                    ReplyToPrivateMessage.class
+            );
+            StaticInfo.setCurrentShell(shell);
+            shell.run();
+
+
+        } catch (Exception e) {
             System.out.println(e);
             throw e;
         }

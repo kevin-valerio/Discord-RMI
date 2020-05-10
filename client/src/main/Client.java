@@ -28,7 +28,7 @@ public class Client extends Shell<PDPublicAPI> {
     public static void main(String[] args) {
         if (args.length == 0) {
             Logger.getLogger().println(("No args given. Setting default args to localhost"));
-            args = new String[]{"127.0.0.1"};
+            args = new String[]{"localhost:1099"};
         }
 
         if (args.length == 1) {
