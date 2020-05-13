@@ -27,8 +27,8 @@ public class ClientPrivateMessageImpl extends UnicastRemoteObject implements Cli
         Logger.getLogger().flush();
         Logger.getLogger().println();
         Logger.getLogger().println();
-        Logger.getLogger().println("\u001B[33mNew Direct Private Message received from \u001B[31m" + pm.getPseudo() + "\u001B[0m");
-        Logger.getLogger().println("\u001B[32mUse the appropriate command to check pending private messages\u001B[0m");
+        Logger.getLogger().println(ANSI.YELLOW + "New Direct Private Message received from " + ANSI.RED + pm.getPseudo() + ANSI.SANE);
+        Logger.getLogger().println(ANSI.CYAN + "Use the appropriate command to check pending private messages" + ANSI.SANE);
         StaticInfo.setLastEmitterDirectPvtMessageInterface(pm.getPmInterface());
         StaticInfo.setLastEmitterDirectPvtMessagePseudo(pm.getPseudo());
         Logger.getLogger().println();
@@ -43,7 +43,8 @@ public class ClientPrivateMessageImpl extends UnicastRemoteObject implements Cli
     @Override
     public void notifyClientOfNewPrivateMessages(String emitterPseudo) throws RemoteException, InterruptedException {
         Logger.getLogger().println("\n\u001B[33mNew private message received from \u001B[31m" + emitterPseudo + "\u001B[0m");
-        Logger.getLogger().println("\u001B[32mUse the appropriate command to check pending private messages\u001B[0m\n");
+        Logger.getLogger().println(
+                ANSI.CYAN + "Use the appropriate command to check pending private messages" + ANSI.SANE + "\n");
         if (!StaticInfo.isCurrentlyVisualisingGroup())
             System.out.print(ANSI.BLUE + "Discord " + ANSI.YELLOW +  " > " + ANSI.SANE);
     }

@@ -1,5 +1,6 @@
 package cli.commands.messagerie;
 
+import Colors.ANSI;
 import api.PDPublicAPI;
 import cli.framework.Command;
 import interfaces.PrivateMessage;
@@ -20,11 +21,13 @@ public class CheckDirectPrivateMessages extends Command<PDPublicAPI> {
             try {
                 currentMessage = StaticInfo.getPvtMessageInterface().consumePrivateMessage();
 
-                Logger.getLogger().println("\u001B[32mDirect Private message received from \u001B[31m" + currentMessage.getPseudo() + "\u001B[0m");
+                Logger.getLogger().println(
+                        ANSI.CYAN + "Direct Private message received from "
+                                + ANSI.RED + currentMessage.getPseudo() + ANSI.SANE);
                 Logger.getLogger().println("\t" + currentMessage.getMessage());
                 Logger.getLogger().println();
             } catch (Exception e) {
-                Logger.getLogger().println("\u001B[32mNo more Direct Private messages\u001B[0m");
+                Logger.getLogger().println(ANSI.YELLOW + "No more Direct Private messages" + ANSI.SANE);
                 Logger.getLogger().println();
                 break;
             }

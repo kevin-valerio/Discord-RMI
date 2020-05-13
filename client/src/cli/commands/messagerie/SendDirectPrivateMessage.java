@@ -1,5 +1,6 @@
 package cli.commands.messagerie;
 
+import Colors.ANSI;
 import api.PDPublicAPI;
 import cli.framework.Command;
 import interfaces.*;
@@ -41,9 +42,9 @@ public class SendDirectPrivateMessage extends Command<PDPublicAPI> {
 
         if (remoteClientMessageInterface != null) {  //if remoteClient is connected
             Logger.getLogger().println(
-                    "\t\u001B[32mUser " + "\u001B[31m" + StaticInfo.getOwnPseudo()
-                            + "\u001B[32m successfully sent Direct Private Message to "
-                            + "\u001B[31m" + pseudo + "\u001B[0m");
+                    ANSI.CYAN + "\tUser " + "\u001B[31m" + StaticInfo.getOwnPseudo()
+                            + ANSI.CYAN + " successfully sent Direct Private Message to "
+                            + "\u001B[31m" + pseudo + ANSI.SANE);
             remoteClientMessageInterface.addPrivateMessageToQueue(
                     new PrivateMessage(
                             StaticInfo.getOwnPseudo(),
@@ -51,10 +52,10 @@ public class SendDirectPrivateMessage extends Command<PDPublicAPI> {
                             StaticInfo.getPvtMessageInterface()));
         } else {
             Logger.getLogger().println(
-                    "\t\u001B[32m" + "Recipient " + "\u001B[31m" + pseudo + "\t\u001B[32m"
-                            + "is currently disconnected\n" + "\u001B[31m"
-                            + "\tFailed \u001B[32mto route direct message to " + "\u001B[31m" + pseudo
-                            + "\u001B[0m");
+                    ANSI.CYAN + "\t" + "Recipient " + ANSI.RED + pseudo + "\t" + ANSI.CYAN
+                            + "is currently disconnected\n" + ANSI.RED
+                            + "\tFailed " + ANSI.CYAN + "to route direct message to " + ANSI.RED + pseudo
+                            + ANSI.SANE);
         }
     }
 

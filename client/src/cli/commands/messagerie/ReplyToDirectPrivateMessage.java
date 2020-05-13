@@ -46,8 +46,8 @@ public class ReplyToDirectPrivateMessage extends Command<PDPublicAPI> {
                 )
         );
         Logger.getLogger().println(
-                "\t\u001B[32mUser " + "\u001B[31m" + StaticInfo.getOwnPseudo()
-                        + "\u001B[32m successfully sent Direct Private Message to "
+                ANSI.CYAN + "\tUser " + ANSI.RED + StaticInfo.getOwnPseudo()
+                        + ANSI.CYAN + " successfully sent Direct Private Message to "
                         + ANSI.RED + StaticInfo.getLastEmitterDirectPvtMessagePseudo() + ANSI.SANE);
     }
 

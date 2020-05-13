@@ -36,9 +36,10 @@ public class VisualiseGroup extends Command<PDPublicAPI> {
         password = list.get(1);
         pseudo = list.get(2);
         System.out.println("");
-        System.out.println("Connected to topic #"+idTopic+" as "+"\u001B[31m"+pseudo+"\u001B[0m");
-        System.out.println("Type exit to leave.");
-        System.out.println("");
+        System.out.println(
+                ANSI.YELLOW + "Connected to topic " + ANSI.RED + "#" + idTopic
+                        + ANSI.YELLOW + " as " + ANSI.RED + pseudo + ANSI.SANE);
+        System.out.println(ANSI.YELLOW + "Type exit to leave." + ANSI.SANE + "\n");
         StaticInfo.enterVisualisingGroup();
         try
         {

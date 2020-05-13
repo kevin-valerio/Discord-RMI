@@ -66,7 +66,7 @@ public class Connect extends Command<PDPublicAPI> {
 
             //Pvt Messages stores on server
             numberOfNewPvtMsgs = chatInterface.numberOfNewPrivateMessages(chatInterface.getPseudo());
-            System.out.println("nummmber côté server => " + numberOfNewPvtMsgs);
+            //System.out.println("nummmber côté server => " + numberOfNewPvtMsgs);
 
             if (numberOfNewPvtMsgs > 0) {
                 //System.out.println("1");
@@ -82,7 +82,7 @@ public class Connect extends Command<PDPublicAPI> {
                             ANSI.YELLOW + "New private messages received" + ANSI.SANE);
                 }
                 Logger.getLogger().println(
-                        ANSI.GREEN + "Use the appropriate command to check pending private messages\n"
+                        ANSI.CYAN + "Use the appropriate command to check pending private messages\n"
                                 + ANSI.SANE);
             }
 

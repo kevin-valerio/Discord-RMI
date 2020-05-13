@@ -32,11 +32,11 @@ public class ReplyToPrivateMessage extends Command<PDPublicAPI> {
     public void execute() throws Exception {
         String lastEmitterPvtMessagePseudo = StaticInfo.getLastEmitterPvtMessagePseudo();
         ClientPrivateMessageInterface remoteClient = StaticInfo.getLastEmitterPvtMessageInterface();
-        System.out.println("last emitter pvt msg pseudo => " + lastEmitterPvtMessagePseudo);
+        //System.out.println("last emitter pvt msg pseudo => " + lastEmitterPvtMessagePseudo);
         //System.out.println("staticinfo.getchatinterface() => " + StaticInfo.getChatInterface());
         if (lastEmitterPvtMessagePseudo == null) {
             Logger.getLogger().println(
-                    ANSI.RED + "ERROR: " + ANSI.GREEN
+                    ANSI.RED + "ERROR: " + ANSI.YELLOW
                             + "No Last Emitter of Private Message (as of now)"+ ANSI.SANE);
             return;
         }
@@ -48,8 +48,8 @@ public class ReplyToPrivateMessage extends Command<PDPublicAPI> {
                         StaticInfo.getPvtMessageInterface()));
         //remoteClient.notifyClientOfNewPrivateMessages(StaticInfo.getOwnPseudo());
         Logger.getLogger().println(
-                "\t\u001B[32mUser " + "\u001B[31m" + StaticInfo.getOwnPseudo()
-                        + "\u001B[32m successfully sent Direct Private Message to "
+                ANSI.CYAN + "\tUser " + ANSI.RED + StaticInfo.getOwnPseudo()
+                        + ANSI.CYAN + " successfully sent Direct Private Message to "
                         + ANSI.RED + lastEmitterPvtMessagePseudo + ANSI.SANE);
     }
 

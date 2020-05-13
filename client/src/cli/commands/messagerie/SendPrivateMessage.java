@@ -1,5 +1,6 @@
 package cli.commands.messagerie;
 
+import Colors.ANSI;
 import api.PDPublicAPI;
 import cli.framework.Command;
 import interfaces.*;
@@ -41,9 +42,9 @@ public class SendPrivateMessage extends Command<PDPublicAPI> {
                         StaticInfo.getPvtMessageInterface()
                 ));
         Logger.getLogger().println(
-                "\n\u001B[32m" + "user " + "\u001B[31m" + StaticInfo.getOwnPseudo()
-                        + "\u001B[32m successfully sent Private Message to "
-                        + "\u001B[31m" + pseudo + "\u001B[0m");
+                ANSI.CYAN + "user " + "\u001B[31m" + StaticInfo.getOwnPseudo()
+                        + ANSI.CYAN + " successfully sent Private Message to "
+                        + "\u001B[31m" + pseudo + ANSI.SANE);
     }
 
     @Override
